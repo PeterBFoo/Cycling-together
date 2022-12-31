@@ -1,3 +1,5 @@
+const modelError = require("../../errors/ModelErrors.js")("Bycicle");
+
 function Bycicle() {
 	let properties = Object.keys(this.properties());
 	properties.forEach(property => {
@@ -82,18 +84,20 @@ Bycicle.prototype.properties = function (DataTypes = {
 Bycicle.prototype.setup = function (args) {
 	let properties = this.properties();
 	Object.keys(properties).forEach((property) => {
-		if (!properties[property].allowNull && args[property] == null) {
-			throw new Error("BYCICLE: Property " + property + " cannot be null");
-		} else if (typeof args[property] != properties[property].type) {
-			if (typeof parseInt(args[property]) == properties[property].type) {
-				this[property] = parseInt(args[property]);
-			} else {
-				throw new Error("BYCICLE: Property " + property + " must be of type " + properties[property].type);
-			}
-		} else {
+		if (typeof args[property] == properties[property].type || (properties[property].allowNull && args[property] == null)) {
 			this[property] = args[property];
+		} else if (typeof parseInt(args[property]) == properties[property].type) {
+			this[property] = parseInt(args[property]);
+		} else {
+			if (args[property] == null) {
+				modelError.notNullable(property);
+			} else {
+				modelError.propertyType(typeof property, properties[property].type);
+			}
 		}
 	});
+
+	return this;
 };
 
 var bycicle = (function () {
