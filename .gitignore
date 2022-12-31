@@ -30,7 +30,7 @@ node_modules/
 .eslintcache
 
 # dotenv environment variables file
-.env
+*.env
 
 # next.js build output
 .next
