@@ -1,15 +1,21 @@
 const db = require("../../connection.js");
-const data = require("../../mocks/bycicles.json");
+var data = require("../../mocks/bycicles.json");
 const queryInterface = db.connection.getQueryInterface();
 const Bycicle = db.bycicles;
 
 
 module.exports = {
-	up: async () => {
-		console.log("\x1b[42m%s\x1b[0m", "SEEDING BYCICLES");
+	up: async (env) => {
 		const stores = await queryInterface.sequelize.query(
 			"SELECT id from STORES;"
 		);
+
+		if (env === "test") {
+			data = data.slice(0, 10);
+			console.log("\x1b[42m%s\x1b[0m", "SEEDING BYCICLES TEST");
+		} else {
+			console.log("\x1b[42m%s\x1b[0m", "SEEDING BYCICLES");
+		}
 
 		data.forEach((bycicle) => {
 			bycicle.storeId = stores[0][Math.floor(Math.random() * stores[0].length)].id;
