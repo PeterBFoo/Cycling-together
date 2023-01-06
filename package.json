@@ -3,9 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "test": "cross-env NODE_ENV=test npm run seed:test && jest",
     "dev": "cross-env NODE_ENV=dev nodemon ./bin/www",
-    "test": "cross-env NODE_ENV=dev jest",
     "start": "cross-env NODE_ENV=prod node ./bin/www",
+    "db:start": "docker compose up -d",
+    "db:stop": "docker compose down",
+    "seed:test": "cross-env NODE_ENV=test node ./app/src/db/seeders/dbSeeder.js",
     "seed:dev": "cross-env NODE_ENV=dev node ./app/src/db/seeders/dbSeeder.js",
     "seed:prod": "cross-env NODE_ENV=prod node ./app/src/db/seeders/seed.js",
     "lint": "./node_modules/.bin/eslint ./",
@@ -15,18 +18,18 @@
   "dependencies": {
     "cross-env": "^7.0.3",
     "debug": "~2.6.9",
+    "dotenv": "^16.0.3",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "mysql2": "^2.3.3",
     "pg": "^8.8.0",
-    "sequelize": "^6.28.0",
-    "dotenv": "^16.0.3"
+    "sequelize": "^6.28.0"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
-    "supertest": "^4.0.2",
     "jest": "^29.3.1",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "supertest": "^4.0.2"
   }
 }
