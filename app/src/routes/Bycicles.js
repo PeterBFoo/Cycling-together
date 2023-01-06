@@ -2,21 +2,21 @@ const bycicleController = require("../controllers/BycicleController.js");
 const router = require("express").Router();
 
 // Create a new Bycicle
-router.post("/register", bycicleController.create);
+router.post("/register", bycicleController.registerBycicle);
 
 // Retrieve all bycicles
-router.get("/", bycicleController.findAll);
+router.get("/", bycicleController.findAllBycicles);
 
 // Retrieve a single Bycicle with id
-router.get("/:id", bycicleController.findOne);
+router.get("/get/:id", bycicleController.findOneBycicle);
 
 // Update a Bycicle with id
-router.put("/:id", bycicleController.update);
+router.put("/update/:id", bycicleController.updateBycicle);
 
 // Delete a Bycicle with id
-router.delete("/:id", bycicleController.delete);
+router.delete("/delete/one/:id", bycicleController.deleteBycicle);
 
 // Delete all bycicles
-router.delete("/", bycicleController.deleteAll);
+router.delete("/delete/all", bycicleController.deleteAllBycicles);
 
 module.exports = router;
