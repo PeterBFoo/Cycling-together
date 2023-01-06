@@ -7,18 +7,23 @@ const db = require("./src/db/connection.js");
 
 db.connection.sync()
   .then(() => {
-    console.log("\x1b[36m%s\x1b[0m", "\nSynced database");
+    if (env.LOGGING) {
+      console.log("\x1b[36m%s\x1b[0m", "\nSynced database");
+    }
   })
   .catch((err) => {
-    console.log("\x1b[31m%s\x1b[0m", "Failed to sync database due to: " + err.message);
+    if (env.LOGGING) {
+      console.log("\x1b[31m%s\x1b[0m", "Failed to sync database due to: " + err.message);
+    }
   });
 
-if (env.NODE_ENV === "dev") {
-  app.use(logger("dev"));
-}
+if (env.NODE_ENV === "dev") app.use(logger("dev"));
+let appPort = env.NODE_ENV == "dev" ? "3000" : "8080";
 
 app.use(express.json());
-app.use("/", require("./src/routes/index"));
+
+// Routes
+app.use("/", require("./src/routes/Index"));
 app.use("/bycicles", require("./src/routes/Bycicles"));
 app.use("/stores", require("./src/routes/Stores"));
 
@@ -34,6 +39,6 @@ app.use(function (err, req, res, next) {
   res.locals.error = env.NODE_ENV === "dev" ? err : {};
 });
 
-console.log("App is running on http://localhost:" + env.PORT + "\n");
+if (env.NODE_ENV != "test") console.log("\x1b[36m%s\x1b[0m", "App is running on http://localhost:" + appPort + "\n");
 
 module.exports = app;
