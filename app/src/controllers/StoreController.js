@@ -84,7 +84,10 @@ function create(req, res) {
 
 	Store.create(store)
 		.then(data => {
-			res.status(201).send(data);
+			res.status(201).send({
+				message: "Store was registered successfully.",
+				data: data
+			});
 		})
 		.catch(err => {
 			res.status(500).send({
