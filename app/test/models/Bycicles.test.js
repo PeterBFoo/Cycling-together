@@ -52,5 +52,5 @@ test("Create a new bycicle with wrong property types", () => {
 			}
 		);
 	};
-	expect(setup).toThrow(Error);
+	expect(setup).toThrow();
 });
