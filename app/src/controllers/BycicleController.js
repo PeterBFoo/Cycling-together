@@ -4,7 +4,7 @@ const Bycicle = db.bycicles;
 
 
 // Create and Save a new Bycicle
-exports.create = (req, res) => {
+function registerBycicle(req, res) {
 	// Validate request
 	if (!req.body) {
 		res.status(400).send({
@@ -26,7 +26,10 @@ exports.create = (req, res) => {
 	// Save Bycicle in the database
 	Bycicle.create(bycicle)
 		.then(data => {
-			res.status(200).send(data);
+			res.status(201).send({
+				message: "Bycicle was registered successfully.",
+				data: data
+			});
 		})
 		.catch(err => {
 			res.status(500).send({
@@ -34,9 +37,9 @@ exports.create = (req, res) => {
 					err.message || "Some error occurred while creating the Bycicle."
 			});
 		});
-};
+}
 
-exports.findAll = (req, res) => {
+function findAllBycicles(req, res) {
 	Bycicle.findAll({ where: {} })
 		.then(data => {
 			res.status(200).send(data);
@@ -47,11 +50,11 @@ exports.findAll = (req, res) => {
 					err.message || "Some error occurred while retrieving Bycicles."
 			});
 		});
-};
+}
 
 // Find a single Bycicle with an id
-exports.findOne = (req, res) => {
-	const id = req.params.id;
+function findOneBycicle(req, res) {
+	let id = req.params.id;
 
 	Bycicle.findByPk(id)
 		.then(data => {
@@ -68,13 +71,22 @@ exports.findOne = (req, res) => {
 				message: "Error retrieving Bycicle with id=" + id, err
 			});
 		});
-};
+}
 
 // Update a Bycicle by the id in the request
-exports.update = (req, res) => {
-	const id = req.params.id;
+function updateBycicle(req, res) {
+	let id = req.params.id;
 
-	Bycicle.update(req.body, {
+	try {
+		var bycicle = bycicleModel.get().setup(req.body);
+	} catch (error) {
+		res.status(400).send({
+			message: error.message
+		});
+		return;
+	}
+
+	Bycicle.update(bycicle, {
 		where: { id: id }
 	})
 		.then(num => {
@@ -90,14 +102,14 @@ exports.update = (req, res) => {
 		})
 		.catch(err => {
 			res.status(500).send({
-				message: "Error updating bycicle with id=" + id, err
+				message: "Error updating bycicle with id=" + id + err
 			});
 		});
-};
+}
 
 // Delete a Bycicle with the specified id in the request
-exports.delete = (req, res) => {
-	const id = req.params.id;
+function deleteBycicle(req, res) {
+	let id = req.params.id;
 
 	Bycicle.destroy({
 		where: { id: id }
@@ -118,11 +130,10 @@ exports.delete = (req, res) => {
 				message: "Could not delete Bycicle with id=" + id, err
 			});
 		});
-};
-
+}
 
 // Delete all Bycicles from the database.
-exports.deleteAll = (req, res) => {
+function deleteAllBycicles(req, res) {
 	Bycicle.destroy({
 		where: {},
 		truncate: false
@@ -136,4 +147,15 @@ exports.deleteAll = (req, res) => {
 					err.message || "Some error occurred while removing all Bycicles."
 			});
 		});
+}
+
+var bycicleController = {
+	registerBycicle,
+	findAllBycicles,
+	findOneBycicle,
+	updateBycicle,
+	deleteBycicle,
+	deleteAllBycicles
 };
+
+module.exports = bycicleController;
