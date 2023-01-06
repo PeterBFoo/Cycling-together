@@ -8,18 +8,18 @@ router.post("/register", storeController.create);
 router.get("/", storeController.findAll);
 
 // Retrieve a single Store with id
-router.get("/:id", storeController.findOne);
+router.get("/get/:id", storeController.findOne);
 
 // Update a Store with id
-router.put("/:id", storeController.update);
+router.put("/update/:id", storeController.update);
 
 // Delete a Store with id
-router.delete("/:id", storeController.deleteOne);
+router.delete("/delete/one/:id", storeController.deleteOne);
 
 // Delete all stores
-router.delete("/", storeController.deleteAll);
+router.delete("/delete/all", storeController.deleteAll);
 
 // Find all the bycicles that are in a store
-router.get("/:id/bycicles", storeController.findAssociatedBikes);
+router.get("/:storeId/bycicles", storeController.findAssociatedBikes);
 
 module.exports = router;
