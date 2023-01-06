@@ -8,8 +8,52 @@ function Store() {
 }
 
 /**
+ * Check if the newStore object has the same property names as the Store
+ * 
+ * @param {Object} newStore 
+ * @param {String[]} desiredProperties
+ * @returns boolean
+ */
+function isValid(newStore, desiredProperties) {
+	let properties = Object.keys(newStore);
+	let matches = 0;
+	desiredProperties.some(propertyName => {
+		if (properties.includes(propertyName)) matches++;
+	});
+
+	if (matches == desiredProperties.length) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
+ * Checks if the value that must have that property has the desired type (see Store.prototype.properties).
+ * 
+ * @param {Object} property 
+ * @param value 
+ * @returns boolean
+ */
+function matchesDesiredType(property, value) {
+	let desiredTypes = [property.type];
+	property.allowNull ? desiredTypes.push(null) : null;
+
+	for (let i = 0; i < desiredTypes.length; i++) {
+		let desiredType = desiredTypes[i];
+		if (typeof value == desiredType || value == desiredType) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
  * Defines properties of a store. Used to control which data is being created in each field
  * and to know which fields the database will be using.
+ * 
+ * @param optional DataTypes object to define the types of the properties of the Store (stands for Sequelize DataTypes)
  */
 Store.prototype.properties = function (DataTypes = {
 	STRING: "string",
@@ -52,22 +96,29 @@ Store.prototype.properties = function (DataTypes = {
  * Sets the properties of the store
  * 
  * @param Object 
+ * @throws ModelError if the property is not nullable and the value is null or if the property type is not the same as the value type
+ * @return Store
  */
-Store.prototype.setup = function (args) {
+Store.prototype.setup = function (newStore) {
 	let properties = this.properties();
-	Object.keys(properties).forEach((property) => {
-		if (typeof args[property] == properties[property].type || (properties[property].allowNull && args[property] == null)) {
-			this[property] = args[property];
-		} else if (typeof parseInt(args[property]) == properties[property].type) {
-			this[property] = parseInt(args[property]);
-		} else {
-			if (args[property] == null) {
-				modelError.notNullable(property);
+
+	if (isValid(newStore, Object.keys(properties))) {
+		Object.keys(properties).forEach((property) => {
+			if (matchesDesiredType(properties[property], newStore[property])) {
+				this[property] = newStore[property];
+			} else if (typeof parseInt(newStore[property]) == properties[property].type) {
+				this[property] = parseInt(newStore[property]);
 			} else {
-				modelError.propertyType(typeof property, properties[property].type);
+				if (newStore[property] == null) {
+					return modelError.notNullable(property);
+				} else {
+					return modelError.propertyType(typeof property, properties[property].type);
+				}
 			}
-		}
-	});
+		});
+	} else {
+		return modelError.invalidProperties();
+	}
 
 	return this;
 };
