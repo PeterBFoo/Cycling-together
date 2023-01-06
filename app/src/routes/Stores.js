@@ -20,6 +20,6 @@ router.delete("/delete/one/:id", storeController.deleteOne);
 router.delete("/delete/all", storeController.deleteAll);
 
 // Find all the bycicles that are in a store
-router.get("/:storeId/bycicles", storeController.findAssociatedBikes);
+router.get("/:id/bycicles", storeController.findAssociatedBikes);
 
 module.exports = router;
