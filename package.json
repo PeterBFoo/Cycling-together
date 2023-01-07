@@ -3,14 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "cross-env NODE_ENV=test npm run seed:test && jest",
+    "test": "cross-env NODE_ENV=test npm run seed:test && jest --detectOpenHandles",
+    "test:coverage": "cross-env NODE_ENV=test npm run seed:test && jest --detectOpenHandles --coverage",
     "dev": "cross-env NODE_ENV=dev nodemon ./bin/www",
     "start": "cross-env NODE_ENV=prod node ./bin/www",
     "db:start": "docker compose up -d",
     "db:stop": "docker compose down",
     "seed:test": "cross-env NODE_ENV=test node ./app/src/db/seeders/dbSeeder.js",
     "seed:dev": "cross-env NODE_ENV=dev node ./app/src/db/seeders/dbSeeder.js",
-    "seed:prod": "cross-env NODE_ENV=prod node ./app/src/db/seeders/seed.js",
+    "seed:prod": "cross-env NODE_ENV=prod node ./app/src/db/seeders/dbSeeder.js",
     "lint": "./node_modules/.bin/eslint ./",
     "lint:fix": "./node_modules/.bin/eslint ./ --fix",
     "precommit": "npm run lint:fix && npm run test"
@@ -31,5 +32,8 @@
     "jest": "^29.3.1",
     "nodemon": "^2.0.20",
     "supertest": "^4.0.2"
+  },
+  "jest": {
+    "testSequencer": "./app/test/testSequencer.js"
   }
 }
