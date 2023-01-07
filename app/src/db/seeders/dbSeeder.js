@@ -1,11 +1,10 @@
 const bycicleSeeder = require("./bycicle/BycicleSeeder");
 const storeSeeder = require("./store/StoreSeeder");
-const env = require("../../config/dbconfig");
 
-var dbSeeder = {
-	seed: async (env) => {
-		await storeSeeder.up(env);
-		await bycicleSeeder.up(env);
+var dbActions = {
+	seed: async () => {
+		await storeSeeder.up();
+		await bycicleSeeder.up();
 	},
 	drop: async () => {
 		await storeSeeder.down();
@@ -13,4 +12,4 @@ var dbSeeder = {
 	}
 };
 
-dbSeeder.seed(env.NODE_ENV);
+dbActions.seed();
