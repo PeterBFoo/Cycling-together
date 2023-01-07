@@ -1,6 +1,4 @@
-const db = require("../db/connection.js");
-const storeModel = require("../models/store/Store.js");
-const Store = db.stores;
+const Store = require("../db/connection.js").stores;
 
 
 function findAll(req, res) {
@@ -35,7 +33,7 @@ function findOne(req, res) {
 	Store.findByPk(id)
 		.then(data => {
 			if (data) {
-				res.send(data);
+				res.status(200).send(data);
 			} else {
 				res.status(404).send({
 					message: `Cannot find Store with id=${id}.`
@@ -57,12 +55,12 @@ function update(req, res) {
 	})
 		.then(num => {
 			if (num == 1) {
-				res.send({
+				res.status(200).send({
 					message: "Store was updated successfully."
 				});
 			} else {
-				res.send({
-					message: `Cannot update Store with id=${id}. Maybe Store was not found or req.body is empty!`
+				res.status(404).send({
+					message: `Cannot update Store with id=${id}.`
 				});
 			}
 		})
@@ -74,15 +72,7 @@ function update(req, res) {
 }
 
 function create(req, res) {
-	try {
-		var store = storeModel.get().setup(req.body);
-	} catch (error) {
-		res.status(400).send({
-			message: "Error creating Store", error
-		});
-	}
-
-	Store.create(store)
+	Store.create(req.body)
 		.then(data => {
 			res.status(201).send({
 				message: "Store was registered successfully.",
@@ -105,12 +95,12 @@ function deleteOne(req, res) {
 	})
 		.then(num => {
 			if (num == 1) {
-				res.send({
+				res.status(204).send({
 					message: "Store was deleted successfully!"
 				});
 			} else {
-				res.send({
-					message: `Cannot delete Store with id=${id}. Maybe Store was not found!`
+				res.status(404).send({
+					message: `Cannot delete Store with id=${id}. Store not found. `
 				});
 			}
 		})
@@ -127,7 +117,13 @@ function deleteAll(req, res) {
 		truncate: false
 	})
 		.then(nums => {
-			res.send({ message: `${nums} Stores were deleted successfully!` });
+			if (nums == 0) {
+				res.status(304).send({
+					message: "Cannot delete stores because there are no stores in the database."
+				});
+			} else {
+				res.status(204).send({ message: `${nums} Stores were deleted successfully!` });
+			}
 		})
 		.catch(err => {
 			res.status(500).send({

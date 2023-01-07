@@ -1,30 +1,10 @@
-const db = require("../db/connection.js");
-const bycicleModel = require("../models/bycicle/Bycicle.js");
-const Bycicle = db.bycicles;
+const Bycicle = require("../db/connection.js").bycicles;
 
 
 // Create and Save a new Bycicle
 function registerBycicle(req, res) {
-	// Validate request
-	if (!req.body) {
-		res.status(400).send({
-			message: "Content can not be empty!"
-		});
-		return;
-	}
-
-	// Create a Bycicle
-	try {
-		var bycicle = bycicleModel.get().setup(req.body);
-	} catch (error) {
-		res.status(400).send({
-			message: error.message
-		});
-		return;
-	}
-
 	// Save Bycicle in the database
-	Bycicle.create(bycicle)
+	Bycicle.create(req.body)
 		.then(data => {
 			res.status(201).send({
 				message: "Bycicle was registered successfully.",
@@ -68,7 +48,7 @@ function findOneBycicle(req, res) {
 		})
 		.catch(err => {
 			res.status(500).send({
-				message: "Error retrieving Bycicle with id=" + id, err
+				message: `Error retrieving Bycicle with id=${id}. ${err}`
 			});
 		});
 }
@@ -77,32 +57,23 @@ function findOneBycicle(req, res) {
 function updateBycicle(req, res) {
 	let id = req.params.id;
 
-	try {
-		var bycicle = bycicleModel.get().setup(req.body);
-	} catch (error) {
-		res.status(400).send({
-			message: error.message
-		});
-		return;
-	}
-
-	Bycicle.update(bycicle, {
+	Bycicle.update(req.body, {
 		where: { id: id }
 	})
 		.then(num => {
 			if (num == 1) {
-				res.send({
+				res.status(200).send({
 					message: "Bycicle was updated successfully."
 				});
 			} else {
-				res.send({
-					message: `Cannot update Bycicle with id=${id}. Maybe the bycicle was not found or req.body is empty!`
+				res.status(404).send({
+					message: `Cannot update Bycicle with id=${id}.`
 				});
 			}
 		})
 		.catch(err => {
 			res.status(500).send({
-				message: "Error updating bycicle with id=" + id + err
+				message: `Error updating Bycicle with id=${id}. ${err}`
 			});
 		});
 }
@@ -116,11 +87,11 @@ function deleteBycicle(req, res) {
 	})
 		.then(num => {
 			if (num == 1) {
-				res.send({
+				res.status(204).send({
 					message: "Bycicle was deleted successfully!"
 				});
 			} else {
-				res.send({
+				res.status(404).send({
 					message: `Cannot delete Bycicle with id=${id}. Maybe Bycicle was not found!`
 				});
 			}
