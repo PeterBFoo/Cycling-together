@@ -1,10 +1,10 @@
 const dbConfig = require("../config/dbconfig.js");
 const models = require("../models/Models.js");
+const Sequelize = require("sequelize");
 
 /**
  * Start connection with database
  */
-const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 	host: dbConfig.HOST,
 	dialect: dbConfig.DIALECT,
@@ -19,8 +19,6 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 });
 
 const db = {};
-
-db.Sequelize = Sequelize;
 db.connection = sequelize;
 
 /**
