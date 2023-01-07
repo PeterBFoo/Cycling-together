@@ -1,8 +1,6 @@
 const storeController = require("../controllers/StoreController");
+const storeMiddleware = require("../middleware/StoreMiddleware");
 const router = require("express").Router();
-
-// Create a new Store
-router.post("/register", storeController.create);
 
 // Retrieve all stores
 router.get("/", storeController.findAll);
@@ -10,8 +8,39 @@ router.get("/", storeController.findAll);
 // Retrieve a single Store with id
 router.get("/get/:id", storeController.findOne);
 
+// Create a new Store
+router.post("/register", function (req, res, next) {
+	if (storeMiddleware.validateRequest(req)) next();
+	else {
+		res.status(400).send({
+			message: "Content can not be empty!"
+		});
+	}
+}, function (req, res, next) {
+	if (storeMiddleware.isValidStore(req.body)) next();
+	else {
+		res.status(400).send({
+			message: "Invalid store data!"
+		});
+	}
+}, storeController.create);
+
 // Update a Store with id
-router.put("/update/:id", storeController.update);
+router.put("/update/:id", function (req, res, next) {
+	if (storeMiddleware.validateRequest(req)) next();
+	else {
+		res.status(400).send({
+			message: "Content can not be empty!"
+		});
+	}
+}, function (req, res, next) {
+	if (storeMiddleware.isValidStore(req.body)) next();
+	else {
+		res.status(400).send({
+			message: "Invalid store data!"
+		});
+	}
+}, storeController.update);
 
 // Delete a Store with id
 router.delete("/delete/one/:id", storeController.deleteOne);
