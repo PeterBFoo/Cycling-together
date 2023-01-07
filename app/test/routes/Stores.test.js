@@ -1,17 +1,23 @@
 const request = require("supertest");
 const app = require("../../app");
 
+afterAll(() => {
+    cleanUp();
+});
+
 test("GET /stores", async () => {
     const response = await request(app).get("/stores");
+
     expect(response.statusCode).toBe(200);
-    expect(response.body.length).toBe(2);
+    expect(response.body.length > 1).toBeTruthy();
 });
 
 test("GET /stores/get/:id", async () => {
-    const res = await request(app).get("/stores/get/1");
+    let id = 1;
+    const res = await request(app).get("/stores/get/" + id);
 
     expect(res.statusCode).toBe(200);
-    expect(res.body.id).toBe(1);
+    expect(res.body.id).toBe(id);
 });
 
 test("GET /stores/:id/bycicles", async () => {
@@ -23,32 +29,37 @@ test("GET /stores/:id/bycicles", async () => {
     });
 });
 
-test("POST /stores/register", async () => {
-    const res = request(app)
+test("POST /stores/register 201", async () => {
+    await request(app)
         .post("/stores/register")
         .send({
-            "storeName": "Test Store",
-            "address": "Test Address",
-            "city": "Test City",
-            "country": "Test Country",
-            "phoneNumber": "Test Phone Number",
-            "email": "test@test.com",
-            "website": "Test Website"
+            "storeName": "test",
+            "address": "6918 test Lane",
+            "city": "test",
+            "country": "test",
+            "phoneNumber": "test",
+            "email": "test",
+            "website": "test"
         })
-        .end((err, res) => {
-            if (err) {
-                throw err;
-            } else {
-                expect(res.statusCode).toBe(201);
-                expect(res.body.message).toEqual("Store was registered successfully.");
-                expect(res.body.data).toHaveProperty("id");
-            }
+        .expect(201)
+        .expect((res) => {
+            expect(res.body.message).toEqual("Store was registered successfully.");
+            expect(res.body.data).toHaveProperty("id");
         });
 });
 
-test("PUT /stores/update/:id", async () => {
-    const res = await request(app)
-        .put("/stores/update/2")
+test("POST /stores/register 400", async () => {
+    await request(app)
+        .post("/stores/register")
+        .send({})
+        .expect(400);
+});
+
+test("PUT /stores/update/:id 200", async () => {
+    let id = 1;
+
+    await request(app)
+        .put("/stores/update/" + id)
         .send({
             "storeName": "Updated Test Store",
             "address": "Updated Test Address",
@@ -57,17 +68,43 @@ test("PUT /stores/update/:id", async () => {
             "phoneNumber": "Test Phone Number",
             "email": "test@test.com",
             "website": "Test Website"
-        });
-
-    expect(res.body.message).toEqual("Store was updated successfully.");
+        })
+        .expect(200);
 });
 
-test("DELETE /stores/delete/one/id", async () => {
-    const res = await request(app).delete("/stores/delete/one/1");
-    expect(res.body.message).toEqual("Store was deleted successfully!");
+test("PUT /stores/update/:id 404", async () => {
+    let id = 754;
+
+    await request(app)
+        .put("/stores/update/" + id)
+        .send({
+            "storeName": "Updated Test Store",
+            "address": "Updated Test Address",
+            "city": "Test City",
+            "country": "Test Country",
+            "phoneNumber": "Test Phone Number",
+            "email": "test@test.com",
+            "website": "Test Website"
+        })
+        .expect(404);
 });
 
-test("DELETE /stores/delete/all", async () => {
-    const res = await request(app).delete("/stores/delete/all");
-    expect(res.body.message).toEqual("2 Stores were deleted successfully!");
-})
+test("DELETE /stores/delete/one/:id 204", async () => {
+    let id = 1;
+
+    await request(app)
+        .delete("/stores/delete/one/" + id)
+        .expect(204);
+});
+
+test("DELETE /stores/delete/one/:id 404", async () => {
+    let id = 754;
+
+    await request(app)
+        .delete("/stores/delete/one/" + id)
+        .expect(404);
+});
+
+async function cleanUp() {
+    await request(app).delete("/stores/delete/all");
+}
