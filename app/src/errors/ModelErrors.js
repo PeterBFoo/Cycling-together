@@ -21,7 +21,7 @@ var modelError = function (model) {
 			return error.propertyType(propertyName, wrongType, desiredType);
 		},
 		notNullable: function (property) {
-			return error.notNullable(property).call(error);
+			return error.notNullable(property);
 		},
 		invalidProperties: function () {
 			return error.invalidProperties();
