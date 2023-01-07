@@ -37,6 +37,7 @@ app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = env.NODE_ENV === "dev" ? err : {};
+  res.status(404).send(err.message);
 });
 
 if (env.NODE_ENV != "test") console.log("\x1b[36m%s\x1b[0m", "App is running on http://localhost:" + appPort + "\n");
