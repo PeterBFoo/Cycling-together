@@ -50,6 +50,10 @@ function matchesDesiredType(property, value) {
 	return false;
 }
 
+function canBeConvertedToNumber(desiredType, value) {
+	return typeof parseInt(value) == desiredType;
+}
+
 /**
  * Defines properties of bycicle. Used to control which data is being created in each field
  * and to know which fields the database will be using.
@@ -131,7 +135,7 @@ Bycicle.prototype.setup = function (newBike) {
 		Object.keys(properties).forEach((property) => {
 			if (matchesDesiredType(properties[property], newBike[property])) {
 				this[property] = newBike[property];
-			} else if (typeof parseInt(newBike[property]) == properties[property].type) {
+			} else if (canBeConvertedToNumber(properties[property].type, newBike[property])) {
 				this[property] = parseInt(newBike[property]);
 			} else {
 				if (newBike[property] == null) {
