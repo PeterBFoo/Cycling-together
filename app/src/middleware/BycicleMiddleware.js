@@ -18,7 +18,7 @@ var bycicleMiddleware = (function () {
 	return {
 		validateRequest,
 		isValidBike
-	}
+	};
 })();
 
 module.exports = bycicleMiddleware;

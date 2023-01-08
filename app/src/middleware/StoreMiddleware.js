@@ -18,7 +18,7 @@ var storeMiddleware = (function () {
 	return {
 		validateRequest,
 		isValidStore
-	}
-})()
+	};
+})();
 
 module.exports = storeMiddleware;

@@ -9,7 +9,7 @@ var commonMiddleware = (function () {
 
     return {
         validateRequest
-    }
+    };
 })();
 
 module.exports = commonMiddleware;
