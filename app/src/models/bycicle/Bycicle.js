@@ -14,15 +14,17 @@ function Bycicle() {
  * @param {String[]} desiredProperties
  * @returns boolean
  */
-function isValid(newBike, desiredProperties) {
+function isValid(newBike, desiredProperties, propertiesDescriptions) {
 	let properties = Object.keys(newBike);
 	let matches = 0;
+	let matchesWithNull = 0;
+
 	desiredProperties.some(propertyName => {
-		if (properties.includes(propertyName))
-			matches++;
+		if (properties.includes(propertyName)) matches++;
+		if (propertiesDescriptions[propertyName].allowNull && newBike[propertyName] == undefined) matchesWithNull++;
 	});
 
-	if (matches == desiredProperties.length) {
+	if (matches == desiredProperties.length || matchesWithNull + matches == desiredProperties.length) {
 		return true;
 	} else {
 		return false;
@@ -30,7 +32,7 @@ function isValid(newBike, desiredProperties) {
 }
 
 /**
- * Checks if the value that must have that property has the desired type (see Store.prototype.properties).
+ * Checks if the value that must have that property has the desired type (see Bycicle.prototype.properties).
  * 
  * @param {Object} property 
  * @param value 
@@ -38,7 +40,7 @@ function isValid(newBike, desiredProperties) {
  */
 function matchesDesiredType(property, value) {
 	let desiredTypes = [property.type];
-	property.allowNull ? desiredTypes.push(null) : null;
+	property.allowNull ? desiredTypes.push(null, undefined) : null;
 
 	for (let i = 0; i < desiredTypes.length; i++) {
 		let desiredType = desiredTypes[i];
@@ -50,10 +52,6 @@ function matchesDesiredType(property, value) {
 	return false;
 }
 
-function canBeConvertedToNumber(desiredType, value) {
-	return typeof parseInt(value) == desiredType;
-}
-
 /**
  * Defines properties of bycicle. Used to control which data is being created in each field
  * and to know which fields the database will be using.
@@ -62,15 +60,20 @@ function canBeConvertedToNumber(desiredType, value) {
  */
 Bycicle.prototype.properties = function (DataTypes = {
 	STRING: "string",
-	INTEGER: "number"
+	INTEGER: "number",
+	FLOAT: "number"
 }) {
 	var properties = {
 		category: {
 			type: DataTypes.STRING,
 			allowNull: false
 		},
+		brand: {
+			type: DataTypes.STRING,
+			allowNull: false
+		},
 		weight: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.FLOAT,
 			allowNull: false
 		},
 		frame: {
@@ -79,7 +82,7 @@ Bycicle.prototype.properties = function (DataTypes = {
 		},
 		suspension: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		fork: {
 			type: DataTypes.STRING,
@@ -99,19 +102,19 @@ Bycicle.prototype.properties = function (DataTypes = {
 		},
 		groupSet: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		driveTrain: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.STRING,
 			allowNull: false
 		},
 		frontTravel: {
 			type: DataTypes.STRING,
 			allowNull: true
 		},
-		seatPost: {
+		seatpost: {
 			type: DataTypes.STRING,
-			allowNull: true
+			allowNull: false
 		},
 		storeId: {
 			type: DataTypes.INTEGER,
@@ -131,12 +134,11 @@ Bycicle.prototype.properties = function (DataTypes = {
 Bycicle.prototype.setup = function (newBike) {
 	let properties = this.properties();
 
-	if (isValid(newBike, Object.keys(properties))) {
+	if (isValid(newBike, Object.keys(properties), properties)) {
 		Object.keys(properties).forEach((property) => {
 			if (matchesDesiredType(properties[property], newBike[property])) {
-				this[property] = newBike[property];
-			} else if (canBeConvertedToNumber(properties[property].type, newBike[property])) {
-				this[property] = parseInt(newBike[property]);
+				if (newBike[property] == undefined) this[property] = null;
+				else this[property] = newBike[property];
 			} else {
 				if (newBike[property] == null) {
 					return modelError.notNullable(property);

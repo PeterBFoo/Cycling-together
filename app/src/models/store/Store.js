@@ -14,14 +14,17 @@ function Store() {
  * @param {String[]} desiredProperties
  * @returns boolean
  */
-function isValid(newStore, desiredProperties) {
+function isValid(newStore, desiredProperties, propertiesDescriptions) {
 	let properties = Object.keys(newStore);
 	let matches = 0;
+	let matchesWithNull = 0;
+
 	desiredProperties.some(propertyName => {
 		if (properties.includes(propertyName)) matches++;
+		if (propertiesDescriptions[propertyName].allowNull && newStore[propertyName] == undefined) matchesWithNull++;
 	});
 
-	if (matches == desiredProperties.length) {
+	if (matches == desiredProperties.length || matchesWithNull + matches == desiredProperties.length) {
 		return true;
 	} else {
 		return false;
@@ -37,7 +40,7 @@ function isValid(newStore, desiredProperties) {
  */
 function matchesDesiredType(property, value) {
 	let desiredTypes = [property.type];
-	property.allowNull ? desiredTypes.push(null) : null;
+	property.allowNull ? desiredTypes.push(null, undefined) : null;
 
 	for (let i = 0; i < desiredTypes.length; i++) {
 		let desiredType = desiredTypes[i];
@@ -106,10 +109,11 @@ Store.prototype.properties = function (DataTypes = {
 Store.prototype.setup = function (newStore) {
 	let properties = this.properties();
 
-	if (isValid(newStore, Object.keys(properties))) {
+	if (isValid(newStore, Object.keys(properties), properties)) {
 		Object.keys(properties).forEach((property) => {
 			if (matchesDesiredType(properties[property], newStore[property])) {
-				this[property] = newStore[property];
+				if (newStore[property] == undefined) this[property] = null;
+				else this[property] = newStore[property];
 			} else if (canBeConvertedToNumber(properties[property].type, newStore[property])) {
 				this[property] = parseInt(newStore[property]);
 			} else {
