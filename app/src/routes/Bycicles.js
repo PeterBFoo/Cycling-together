@@ -2,6 +2,7 @@ const bycicleController = require("../controllers/BycicleController.js");
 const bycicleMiddleware = require("../middleware/BycicleMiddleware.js");
 const router = require("express").Router();
 
+
 // Create a new Bycicle
 router.post("/register", function (req, res, next) {
 	if (bycicleMiddleware.validateRequest(req)) next();
@@ -24,6 +25,12 @@ router.get("/", bycicleController.findAllBycicles);
 
 // Retrieve a single Bycicle with id
 router.get("/get/:id", bycicleController.findOneBycicle);
+
+// Retrieve all bycicles by category
+router.get("/get/category/:category", bycicleController.filterByCategory);
+
+// Retrieve all bycicles by brand
+router.get("/get/brand/:brand", bycicleController.filterByBrand);
 
 // Update a Bycicle with id
 router.put("/update/:id", function (req, res, next) {
