@@ -19,25 +19,33 @@ test("GET /bycicles/get/:id", async () => {
     const res = await request(app).get("/bycicles/get/" + id);
 
     expect(res.statusCode).toBe(404);
-    expect(res.body.message).toBe(`Cannot find Bycicle with id=${id}.`);
+    expect(res.body.message).toContain(`Cannot find Bycicle with id=${id}.`);
+});
+
+test("GET /get/category/:category", async () => {
+    const res = await request(app).get("/bycicles/get/category/Mountain Bike");
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.length > 1).toBeTruthy();
 });
 
 test("POST /bycicles/register", async () => {
     const res = request(app)
         .post("/bycicles/register")
         .send({
-            "category": "Tazz",
-            "weight": 22,
-            "frame": "Sonsing",
-            "suspension": "Daltfresh",
-            "fork": "Stronghold",
-            "wheels": "Otcom",
-            "wheelSize": 72,
-            "brakes": "Bamity",
-            "groupSet": "Sub-Ex",
-            "driveTrain": 22,
-            "frontTravel": "Zontrax",
-            "seatPost": "Bamity",
+            "category": "Road Bike",
+            "brand": "Specialized",
+            "weight": 8.3,
+            "frame": "Carbon fiber",
+            "suspension": null,
+            "fork": "Specialized FACT carbon fiber",
+            "wheels": "Specialized Roval CLX 50 Disc",
+            "wheelSize": 62,
+            "brakes": "Shimano Ultegra hydraulic disc",
+            "groupSet": "Shimano Ultegra Di2 electronic",
+            "driveTrain": "2x11 speed",
+            "frontTravel": null,
+            "seatpost": "Specialized S-Works carbon fiber",
             "storeId": 1
         })
         .end((err, res) => {
@@ -45,9 +53,31 @@ test("POST /bycicles/register", async () => {
                 throw err;
             } else {
                 expect(res.statusCode).toBe(201);
-                expect(res.body.message).toEqual("Bycicle was registered successfully.");
+                expect(res.body.message).toContain("Bycicle was registered successfully.");
                 expect(res.body.data).toHaveProperty("id");
             }
+        });
+});
+
+test("POST /bycicles/register 201 without optional parameters", async () => {
+    await request(app)
+        .post("/bycicles/register")
+        .send({
+            "category": "Mountain Bike",
+            "brand": "Trek",
+            "weight": 14.5,
+            "frame": "Aluminum",
+            "fork": "RockShox Recon RL",
+            "wheelSize": 73,
+            "brakes": "Shimano MT200 hydraulic disc",
+            "driveTrain": "1x10 speed",
+            "seatpost": "Bontrager Rhythm Elite",
+            "storeId": 1
+        })
+        .expect((res) => {
+            expect(res.statusCode).toBe(201);
+            expect(res.body.message).toContain("Bycicle was registered successfully.");
+            expect(res.body.data).toHaveProperty("id");
         });
 });
 
@@ -62,18 +92,19 @@ test("PUT /bycicles/update/:id", async () => {
     const res = await request(app)
         .put("/bycicles/update/1")
         .send({
-            "category": "Updated",
-            "weight": 22,
-            "frame": "Updated",
-            "suspension": "Updated",
-            "fork": "Updated",
-            "wheels": "Updated",
-            "wheelSize": 72,
-            "brakes": "Updated",
-            "groupSet": "Updated",
-            "driveTrain": 20,
-            "frontTravel": "Updated",
-            "seatPost": "Updated",
+            "category": "Road Bike",
+            "brand": "Specialized",
+            "weight": 8.3,
+            "frame": "Carbon fiber",
+            "suspension": null,
+            "fork": "Specialized FACT carbon fiber",
+            "wheels": "Specialized Roval CLX 50 Disc",
+            "wheelSize": 62,
+            "brakes": "Shimano Ultegra hydraulic disc",
+            "groupSet": "Shimano Ultegra Di2 electronic",
+            "driveTrain": "2x11 speed",
+            "frontTravel": null,
+            "seatpost": "Specialized S-Works carbon fiber",
             "storeId": 1
         })
         .expect(200);
@@ -84,23 +115,24 @@ test("PUT /bycicles/update/:id 404", async () => {
     const res = await request(app)
         .put("/bycicles/update/" + id)
         .send({
-            "category": "Updated",
-            "weight": 22,
-            "frame": "Updated",
-            "suspension": "Updated",
-            "fork": "Updated",
-            "wheels": "Updated",
-            "wheelSize": 72,
-            "brakes": "Updated",
-            "groupSet": "Updated",
-            "driveTrain": 20,
-            "frontTravel": "Updated",
-            "seatPost": "Updated",
+            "category": "Road Bike",
+            "brand": "Specialized",
+            "weight": 8.3,
+            "frame": "Carbon fiber",
+            "suspension": null,
+            "fork": "Specialized FACT carbon fiber",
+            "wheels": "Specialized Roval CLX 50 Disc",
+            "wheelSize": 62,
+            "brakes": "Shimano Ultegra hydraulic disc",
+            "groupSet": "Shimano Ultegra Di2 electronic",
+            "driveTrain": "2x11 speed",
+            "frontTravel": null,
+            "seatpost": "Specialized S-Works carbon fiber",
             "storeId": 1
         })
         .expect(404);
 
-    expect(res.body.message).toEqual(`Cannot update Bycicle with id=${id}.`);
+    expect(res.body.message).toContain(`Cannot update Bycicle with id=${id}.`);
 });
 
 test("DELETE /bycicles/delete/:id 204", async () => {

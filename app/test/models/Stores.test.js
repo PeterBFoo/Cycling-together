@@ -45,3 +45,18 @@ test("Create a new store with wrong property types", () => {
     };
     expect(setup).toThrow();
 });
+
+test("Create a new store without some optional parameters", () => {
+    let store = storeModel.get().setup(
+        {
+            storeName: "Test Store",
+            address: "123 Test Street",
+            city: "Test City",
+            country: "Test Country",
+            phoneNumber: "123-456-7890",
+            email: "test@test.com"
+        });
+
+    expect(store).toBeTruthy();
+    expect(store.website).toBeFalsy();
+});

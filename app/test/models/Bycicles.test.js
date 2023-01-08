@@ -8,26 +8,34 @@ test("Create a new bycicle with empty properties", () => {
 test("Create a new bycicle with properties", () => {
 	let bycicle = bycicleModel.get();
 	let p = {
-		category: "Mountain",
-		weight: 10,
-		frame: "Carbon",
-		suspension: "RockShox",
-		fork: "DT Swiss",
-		wheels: "Shimano",
-		wheelSize: 29,
-		brakes: "Shimano",
-		groupSet: "RockShox Reverb",
-		driveTrain: 1,
-		frontTravel: "Asda",
-		seatPost: "Decathlon",
-		storeId: 1
+		"category": "Road Bike",
+		"brand": "Specialized",
+		"weight": 8.3,
+		"frame": "Carbon fiber",
+		"suspension": null,
+		"fork": "Specialized FACT carbon fiber",
+		"wheels": "Specialized Roval CLX 50 Disc",
+		"wheelSize": 62,
+		"brakes": "Shimano Ultegra hydraulic disc",
+		"groupSet": "Shimano Ultegra Di2 electronic",
+		"driveTrain": "2x11 speed",
+		"frontTravel": null,
+		"seatpost": "Specialized S-Works carbon fiber",
+		"storeId": 1
 	};
 	bycicle.setup(p);
 
 	let properties = Object.getOwnPropertyNames(bycicle.properties());
+	let propertiesDetails = bycicle.properties();
+
 	for (let i = 0; i < properties.length; i++) {
 		let property = properties[i];
-		expect(bycicle[property]).toBeTruthy();
+		if (propertiesDetails[property].allowNull && bycicle[property] === null) {
+			expect(bycicle[property]).toBeFalsy();
+		} else {
+			expect(bycicle[property]).toBeTruthy();
+		}
+
 	}
 });
 
@@ -37,6 +45,7 @@ test("Create a new bycicle with wrong property types", () => {
 		bycicle.setup(
 			{
 				category: "HVAC",
+				brand: "Bike",
 				weight: 1,
 				frame: "Nunc rhoncus dui vel sem. Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus. Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
 				suspension: "Suspendisse potenti. Cras in purus eu magna vulputate luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
@@ -53,4 +62,27 @@ test("Create a new bycicle with wrong property types", () => {
 		);
 	};
 	expect(setup).toThrow();
+});
+
+test("Create a new bycicle without optional parameters", () => {
+	let bycicle = bycicleModel.get().setup(
+		{
+			"category": "Mountain Bike",
+			"brand": "Trek",
+			"weight": 14.5,
+			"frame": "Aluminum",
+			"fork": "RockShox Recon RL",
+			"wheelSize": 73,
+			"brakes": "Shimano MT200 hydraulic disc",
+			"driveTrain": "1x10 speed",
+			"seatpost": "Bontrager Rhythm Elite",
+			"storeId": 1
+		}
+	);
+
+	expect(bycicle).toBeTruthy();
+	expect(bycicle.suspension).toBeFalsy();
+	expect(bycicle.wheels).toBeFalsy();
+	expect(bycicle.groupSet).toBeFalsy();
+	expect(bycicle.frontTravel).toBeFalsy();
 });

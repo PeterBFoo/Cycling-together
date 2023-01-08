@@ -48,6 +48,24 @@ test("POST /stores/register 201", async () => {
         });
 });
 
+test("POST /stores/register 201 without optional parameters", async () => {
+    await request(app)
+        .post("/stores/register")
+        .send({
+            "storeName": "test",
+            "address": "6918 test Lane",
+            "city": "test",
+            "country": "test",
+            "phoneNumber": "test",
+            "email": "test"
+        })
+        .expect(201)
+        .expect((res) => {
+            expect(res.body.message).toEqual("Store was registered successfully.");
+            expect(res.body.data).toHaveProperty("id");
+        });
+});
+
 test("POST /stores/register 400", async () => {
     await request(app)
         .post("/stores/register")
