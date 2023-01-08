@@ -4,6 +4,10 @@ const logger = require("morgan");
 const env = require("./src/config/dbconfig");
 const app = express();
 const db = require("./src/db/connection.js");
+const swaggerUi = require('swagger-ui-express');
+const fs = require('fs');
+const yaml = require('js-yaml');
+
 
 db.connection.sync()
   .then(() => {
@@ -23,9 +27,11 @@ let appPort = env.NODE_ENV == "dev" ? "3000" : "8080";
 app.use(express.json());
 
 // Routes
-app.use("/", require("./src/routes/Index"));
+// app.use("/", require("./src/routes/Index"));
 app.use("/bycicles", require("./src/routes/Bycicles"));
 app.use("/stores", require("./src/routes/Stores"));
+const swaggerDocument = yaml.load(fs.readFileSync(__dirname + "/doc/apiDoc.yaml", 'utf8'));
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

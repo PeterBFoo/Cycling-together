@@ -1,0 +1,498 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Cycling Together
+  description: Cycling Together API's documentation
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:3000/
+paths:
+  /bycicles:
+    get:
+      summary: Retrieve all the bycicles from the database
+      tags:
+        - Bycicles
+      responses:
+        "200":
+          description: Get all the bycicles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Bycicle"
+
+  /bycicles/get/{id}:
+    get:
+      summary: Retrieve a bycicle by an ID
+      tags:
+        - Bycicles
+      parameters:
+        - name: id
+          in: path
+          description: The bycicle ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: One bycicle
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bycicle"
+        "404":
+          description: Bycicle not found
+
+  /bycicles/get/category/{category}:
+    get:
+      summary: Retrieve bycicles by category
+      tags:
+        - Bycicles
+      parameters:
+        - name: category
+          in: path
+          description: The bycicle category
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Bycicles filtered by category
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bycicle"
+        "404":
+          description: Bycicles with category "x" not found
+
+  /bycicles/get/brand/{brand}:
+    get:
+      summary: Retrieve bycicles by brand
+      tags:
+        - Bycicles
+      parameters:
+        - name: brand
+          in: path
+          description: The bycicle brand
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Bycicles filtered by brand
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bycicle"
+        "404":
+          description: Bycicles with brand "x" not found
+
+  /bycicles/register:
+    post:
+      summary: Register a new bycicle
+      tags:
+        - Bycicles
+      requestBody:
+        description: Register a new bycicle, you have to indicate to which store does it belong
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Bycicle"
+            example:
+              category: "Mountain Bike"
+              brand: "Trek"
+              weight: 14.5
+              frame: "Aluminum"
+              suspension: "Full suspension"
+              fork: "RockShox Recon RL"
+              wheels: "Bontrager Kovee Comp 23"
+              wheelSize: 73
+              brakes: "Shimano MT200 hydraulic disc"
+              groupSet: "Shimano Deore"
+              driveTrain: "1x10 speed"
+              frontTravel: "120 mm"
+              seatpost: "Bontrager Rhythm Elite"
+              storeId: 1
+
+      responses:
+        "201":
+          description: Bycicle created!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bycicle"
+        "400":
+          description: Bad request
+
+  /bycicles/update/{id}:
+    put:
+      summary: Update an existing bycicle
+      tags:
+        - Bycicles
+      parameters:
+        - name: id
+          in: path
+          description: The bycicle ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Register a new bycicle, you have to indicate to which store does it belong
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Bycicle"
+            example:
+              category: "Updated Bike"
+              brand: "Updated Trek"
+              weight: 14.5
+              frame: "Aluminum"
+              suspension: "Full suspension"
+              fork: "RockShox Recon RL"
+              wheels: "Bontrager Kovee Comp 23"
+              wheelSize: 73
+              brakes: "Shimano MT200 hydraulic disc"
+              groupSet: "Shimano Deore"
+              driveTrain: "1x10 speed"
+              frontTravel: "120 mm"
+              seatpost: "Bontrager Rhythm Elite"
+              storeId: 1
+
+      responses:
+        "200":
+          description: Bycicle updated!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bycicle"
+        "400":
+          description: Bad request
+
+  /bycicles/delete/one/{id}:
+    delete:
+      summary: Delete a bycicle by an ID
+      tags:
+        - Bycicles
+      parameters:
+        - name: id
+          in: path
+          description: The bycicle ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Message telling that the bycicle with the requested id has been deleted
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: Bad request
+        "404":
+          description: Bycicle not found
+
+  /bycicles/delete/all:
+    delete:
+      summary: Delete all the bycicles
+      tags:
+        - Bycicles
+      responses:
+        "204":
+          description: Message telling how many bycicles were deleted
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: Bad request
+        "404":
+          description: Bycicle not found
+
+  /stores:
+    get:
+      summary: Retrieve all the stores
+      tags:
+        - Stores
+      responses:
+        "200":
+          description: All the stores
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Store"
+        "404":
+          description: Stores not found
+  /stores/get/{id}: 
+    get:
+      summary: Retrieve a store by an ID
+      tags:
+        - Stores
+      parameters:
+        - name: id
+          in: path
+          description: The store ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Store with the requested ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Store"
+        "404":
+          description: Store not found
+  /stores/{id}/bycicles:
+    get:
+      summary: Retrieve all the bycicles of a store
+      tags:
+        - Stores
+      parameters:
+        - name: id
+          in: path
+          description: The store ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: All the bycicles of the store with the requested ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bycicle"
+        "404":
+          description: Store not found
+  /stores/register:
+    post:
+      summary: Register a new store
+      tags:
+        - Stores
+      requestBody:
+        description: Register a new store
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Store"
+            example:
+              storeName: "Felt"
+              address: "First Street 15"
+              city: "LA"
+              country: "USA"
+              phoneNumber: "123456789"
+              email: "info@felt.com"
+              website: "null"
+      responses:
+        "201":
+          description: Store created!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Store"
+        "400":
+          description: Bad request
+  /stores/update/{id}:
+    put:
+      summary: Update an existing store
+      tags:
+        - Stores
+      parameters:
+        - name: id
+          in: path
+          description: The store ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existing store
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/componentsschemas/Store"
+            example:
+              storeName: "Felt"
+              address: "First Street 15"
+              city: "LA"
+              country: "USA"
+              phone: "123456789"
+              email: "info@felt.com"
+              website: "https://felt.com"
+      responses:
+        "200":
+          description: Store updated!
+          content:
+            application/json:
+              schema:
+                $ref: "#/componentsschemas/Store"
+        "400":
+          description: Bad request
+  /stores/delete/one/{id}:
+    delete:
+      summary: Delete a store by an ID
+      tags:
+        - Stores
+      parameters:
+        - name: id
+          in: path
+          description: The store ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Message telling that the store with the requested id has been deleted
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: Bad request
+        "404":
+          description: Store not found
+  /stores/delete/all:
+    delete:
+      summary: Delete all the stores
+      tags:
+        - Stores
+      responses:
+        "204":
+          description: Message telling how many stores were deleted
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: Bad request
+        "404":
+          description: Store not found
+  
+components:
+  schemas:
+    Bycicle:
+      type: object
+      required:
+        - category
+        - brand
+        - weight
+        - frame
+        - fork
+        - wheelSize
+        - brakes
+        - driveTrain
+        - seatpost
+        - storeId
+
+      properties:
+
+        category:
+          type: string
+          description: Category of the bike
+
+        brand:
+          type: string
+          description: Name of the bike's brand
+
+        weight:
+          type: float
+          description: Weight of the bike in kg
+
+        frame:
+          type: string
+          description: Frame of the bike
+
+        suspension:
+          description: Suspension of the bike
+          oneOf:
+            - type: string
+            - type: "null"
+
+        fork:
+          type: string
+          description: Fork of the bike
+        
+        wheels:
+          description: Wheels of the bike
+          oneOf: 
+            - type: string
+            - type: "null"
+        
+        wheelSize:
+          type: integer
+          description: Wheel size of the bike
+        
+        brakes:
+          type: string
+          description: Brakes of the bike
+        
+        groupSet:
+          description: Groupset of the bike
+          oneOf:
+            - type: string
+            - type: "null"
+
+        driveTrain:
+          type: string
+          description: Drivetrain of the bike
+        
+        frontTravel:
+          description: Front travel of the bike
+          oneOf:
+            - type: integer
+            - type: "null"
+        
+        seatpost:
+          type: string
+          description: Seatpost of the bike
+        
+        storeId:
+          type: integer
+          description: ID of the store where the bike is located
+
+    Store:
+      type: object
+      required:
+        - storeName
+        - address
+        - city
+        - country
+        - phoneNumber
+        - email
+
+      properties:
+        storeName:
+          type: string
+          description: Name of the store
+
+        address:
+          type: string
+          description: Address of the store
+        
+        city:
+          type: string
+          description: City of the store
+        
+        country:
+          type: string
+          description: Country of the store
+        
+        phoneNumber:
+          type: string
+          description: Phone of the store
+        
+        email:
+          type: string
+          description: Email of the store
+        
+        website:
+          description: Website of the store
+          oneOf:
+            - type: string
+            - type: "null"

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "test": "cross-env NODE_ENV=test npm run seed:test && jest --detectOpenHandles",
+    "test:models": "jest ./app/test/models",
     "test:coverage": "cross-env NODE_ENV=test npm run seed:test && jest --detectOpenHandles --coverage",
     "dev": "cross-env NODE_ENV=dev nodemon ./bin/www",
     "start": "cross-env NODE_ENV=prod node ./bin/www",
@@ -20,12 +21,15 @@
     "cross-env": "^7.0.3",
     "debug": "~2.6.9",
     "dotenv": "^16.0.3",
-    "express": "~4.16.1",
+    "express": "^4.18.2",
+    "express-openapi": "^12.1.0",
     "http-errors": "~1.6.3",
+    "js-yaml": "^4.1.0",
     "morgan": "~1.9.1",
     "mysql2": "^2.3.3",
     "pg": "^8.8.0",
-    "sequelize": "^6.28.0"
+    "sequelize": "^6.28.0",
+    "swagger-ui-express": "^4.6.0"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
