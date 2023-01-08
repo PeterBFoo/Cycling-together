@@ -3,10 +3,10 @@ const storeMiddleware = require("../middleware/StoreMiddleware");
 const router = require("express").Router();
 
 // Retrieve all stores
-router.get("/", storeController.findAll);
+router.get("/", storeController.findAllStores);
 
 // Retrieve a single Store with id
-router.get("/get/:id", storeController.findOne);
+router.get("/get/:id", storeController.findOneStore);
 
 // Create a new Store
 router.post("/register", function (req, res, next) {
@@ -23,7 +23,7 @@ router.post("/register", function (req, res, next) {
 			message: "Invalid store data!"
 		});
 	}
-}, storeController.create);
+}, storeController.registerStore);
 
 // Update a Store with id
 router.put("/update/:id", function (req, res, next) {
@@ -40,7 +40,7 @@ router.put("/update/:id", function (req, res, next) {
 			message: "Invalid store data!"
 		});
 	}
-}, storeController.update);
+}, storeController.updateStore);
 
 // Delete a Store with id
 router.delete("/delete/one/:id", storeController.deleteOne);
