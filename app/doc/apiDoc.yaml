@@ -6,7 +6,8 @@ info:
   license:
     name: MIT
 servers:
-  - url: http://localhost:3000/
+  - url: http://localhost:3000/ # Development
+  - url: http://localhost:8080/ # Production
 paths:
   /bycicles:
     get:
