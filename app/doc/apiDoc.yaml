@@ -43,52 +43,35 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Bycicle"
+        "400":
+          description: Bad request
+          
         "404":
           description: Bycicle not found
 
-  /bycicles/get/category/{category}:
+  /bycicles/get/{property}/{value}:
     get:
-      summary: Retrieve bycicles by category
+      summary: Retrieve bycicles filtered by property
       tags:
         - Bycicles
       parameters:
-        - name: category
+        - name: property
           in: path
-          description: The bycicle category
+          description: Any of the bycicle properties
           required: true
           schema:
             type: string
       responses:
         "200":
-          description: Bycicles filtered by category
+          description: Bycicles filtered by one property
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Bycicle"
+        "400":
+          description: Invalid property
         "404":
           description: Bycicles with category "x" not found
-
-  /bycicles/get/brand/{brand}:
-    get:
-      summary: Retrieve bycicles by brand
-      tags:
-        - Bycicles
-      parameters:
-        - name: brand
-          in: path
-          description: The bycicle brand
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Bycicles filtered by brand
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Bycicle"
-        "404":
-          description: Bycicles with brand "x" not found
 
   /bycicles/register:
     post:
@@ -247,6 +230,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Store"
+        "400":
+          description: Bad request
         "404":
           description: Store not found
   /stores/{id}/bycicles:
