@@ -27,9 +27,8 @@ let appPort = env.NODE_ENV == "dev" ? "3000" : "8080";
 app.use(express.json());
 
 // Routes
-// app.use("/", require("./src/routes/Index"));
-app.use("/bycicles", require("./src/routes/Bycicles"));
-app.use("/stores", require("./src/routes/Stores"));
+app.use("/bycicles", require("./src/routes/BycicleRoutes"));
+app.use("/stores", require("./src/routes/StoreRoutes"));
 const swaggerDocument = yaml.load(fs.readFileSync(__dirname + "/doc/apiDoc.yaml", 'utf8'));
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

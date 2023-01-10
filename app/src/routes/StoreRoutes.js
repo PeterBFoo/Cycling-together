@@ -6,7 +6,14 @@ const router = require("express").Router();
 router.get("/", storeController.findAllStores);
 
 // Retrieve a single Store with id
-router.get("/get/:id", storeController.findOneStore);
+router.get("/get/:id", function (req, res, next) {
+	if (storeMiddleware.validateId(req.params.id)) next();
+	else {
+		res.status(400).send({
+			message: "Invalid id!"
+		});
+	}
+}, storeController.findOneStore);
 
 // Create a new Store
 router.post("/register", function (req, res, next) {

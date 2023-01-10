@@ -24,13 +24,24 @@ router.post("/register", function (req, res, next) {
 router.get("/", bycicleController.findAllBycicles);
 
 // Retrieve a single Bycicle with id
-router.get("/get/:id", bycicleController.findOneBycicle);
+router.get("/get/:id", function (req, res, next) {
+	if (bycicleMiddleware.validateId(req.params.id)) next();
+	else {
+		res.status(400).send({
+			message: "Invalid id!"
+		});
+	}
+}, bycicleController.findOneBycicle);
 
-// Retrieve all bycicles by category
-router.get("/get/category/:category", bycicleController.filterByCategory);
-
-// Retrieve all bycicles by brand
-router.get("/get/brand/:brand", bycicleController.filterByBrand);
+// Retrieve all bycicles by a property
+router.get("/get/:property/:value", function (req, res, next) {
+	if (bycicleMiddleware.propertyExists(req.params.property)) next();
+	else {
+		res.status(400).send({
+			message: "Invalid property!"
+		});
+	}
+}, bycicleController.filterBy);
 
 // Update a Bycicle with id
 router.put("/update/:id", function (req, res, next) {

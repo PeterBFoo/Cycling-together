@@ -1,6 +1,6 @@
 const DataTypes = require("sequelize");
-const bycicleModel = require("../models/bycicle/Bycicle.js").get();
-const storeModel = require("../models/store/Store.js").get();
+const bycicleModel = require("./bycicle/BycicleModel.js").get();
+const storeModel = require("./store/StoreModel.js").get();
 
 const Models = {
 	bycicle: function (sequelize) {
