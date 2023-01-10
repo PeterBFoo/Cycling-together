@@ -25,37 +25,13 @@ var controller = (function () {
 			});
 	}
 
-	function filterByCategory(req, res) {
-		let category = req.params.category;
-		Bycicle.findAll({ where: { category: category } })
-			.then(data => {
-				if (data.length == 0) {
-					res.status(404).send({
-						message: `No Bycicles found with category ${category}.`
-					});
-				} else {
-					res.status(200).send(data);
-				}
-			})
-			.catch(err => {
-				res.status(500).send({
-					message:
-						err.message || "Some error occurred while retrieving Bycicles."
-				});
-			});
-	}
+	function filterBy(req, res) {
+		let property = req.params.property;
+		let value = req.params.value;
 
-	function filterByBrand(req, res) {
-		let brand = req.params.brand;
-		Bycicle.findAll({ where: { brand: brand } })
+		Bycicle.findAll({ where: { [property]: value } })
 			.then(data => {
-				if (data.length == 0) {
-					res.status(404).send({
-						message: `No Bycicles found with brand ${brand}.`
-					});
-				} else {
-					res.status(200).send(data);
-				}
+				res.status(200).send(data);
 			})
 			.catch(err => {
 				res.status(500).send({
@@ -168,8 +144,7 @@ var controller = (function () {
 
 	return {
 		registerBycicle,
-		filterByCategory,
-		filterByBrand,
+		filterBy,
 		findAllBycicles,
 		findOneBycicle,
 		updateBycicle,
