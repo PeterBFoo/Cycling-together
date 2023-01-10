@@ -1,5 +1,6 @@
 const request = require("supertest");
 const app = require("../../app");
+const { test } = require("@jest/globals");
 
 test("GET /bycicles", async () => {
     const response = await request(app).get("/bycicles");
@@ -30,7 +31,7 @@ test("GET /get/category/:category", async () => {
 });
 
 test("POST /bycicles/register", async () => {
-    const res = request(app)
+    await request(app)
         .post("/bycicles/register")
         .send({
             "category": "Road Bike",
@@ -48,14 +49,10 @@ test("POST /bycicles/register", async () => {
             "seatpost": "Specialized S-Works carbon fiber",
             "storeId": 1
         })
-        .end((err, res) => {
-            if (err) {
-                throw err;
-            } else {
-                expect(res.statusCode).toBe(201);
-                expect(res.body.message).toContain("Bycicle was registered successfully.");
-                expect(res.body.data).toHaveProperty("id");
-            }
+        .expect((res) => {
+            expect(res.statusCode).toBe(201);
+            expect(res.body.message).toContain("Bycicle was registered successfully.");
+            expect(res.body.data).toHaveProperty("id");
         });
 });
 

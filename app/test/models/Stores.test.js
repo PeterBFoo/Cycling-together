@@ -1,4 +1,4 @@
-const storeModel = require("../../src/models/store/Store.js");
+const storeModel = require("../../src/models/store/StoreModel.js");
 
 test("Create a new store with empty properties", () => {
     let store = storeModel.get();

@@ -1,4 +1,4 @@
-const bycicleModel = require("../../src/models/bycicle/Bycicle.js");
+const bycicleModel = require("../../src/models/bycicle/BycicleModel.js");
 
 test("Create a new bycicle with empty properties", () => {
 	let bycicle = bycicleModel.get();
