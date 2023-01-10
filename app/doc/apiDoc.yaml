@@ -61,6 +61,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: value
+          in: path
+          description: Value of the bycicle property
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: Bycicles filtered by one property
