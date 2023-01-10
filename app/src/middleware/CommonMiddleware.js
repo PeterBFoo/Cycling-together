@@ -7,8 +7,13 @@ var commonMiddleware = (function () {
         return true;
     }
 
+    function validateId(id) {
+        return !isNaN(id);
+    }
+
     return {
-        validateRequest
+        validateRequest,
+        validateId
     };
 })();
 

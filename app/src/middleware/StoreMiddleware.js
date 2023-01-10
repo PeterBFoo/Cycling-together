@@ -1,9 +1,13 @@
-const storeModel = require("../models/store/Store.js");
+const storeModel = require("../models/store/StoreModel.js");
 const common = require("./CommonMiddleware.js");
 
 var storeMiddleware = (function () {
 	function validateRequest(req) {
 		return common.validateRequest(req);
+	}
+
+	function validateId(id) {
+		return common.validateId(id);
 	}
 
 	function isValidStore(store) {
@@ -16,6 +20,7 @@ var storeMiddleware = (function () {
 	}
 
 	return {
+		validateId,
 		validateRequest,
 		isValidStore
 	};

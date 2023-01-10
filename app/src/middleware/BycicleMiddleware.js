@@ -1,4 +1,4 @@
-const bycicleModel = require("../models/bycicle/Bycicle.js");
+const bycicleModel = require("../models/bycicle/BycicleModel.js").get();
 const common = require("./CommonMiddleware.js");
 
 var bycicleMiddleware = (function () {
@@ -6,18 +6,28 @@ var bycicleMiddleware = (function () {
 		return common.validateRequest(req);
 	}
 
+	function validateId(id) {
+		return common.validateId(id);
+	}
+
 	function isValidBike(bike) {
 		try {
-			bycicleModel.get().setup(bike);
+			bycicleModel.setup(bike);
 		} catch (error) {
 			return false;
 		}
 		return true;
 	}
 
+	function propertyExists(property) {
+		return Object.keys(bycicleModel.properties()).includes(property);
+	}
+
 	return {
+		validateId,
 		validateRequest,
-		isValidBike
+		isValidBike,
+		propertyExists
 	};
 })();
 
