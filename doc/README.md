@@ -1,4 +1,4 @@
-# Cycling together API
+# <span style="color:#6699FF">Cycling together API</span>
 
 [![npm](./static/badges/npm.svg)](https://www.npmjs.com) ![javascript](./static/badges/javascript.svg) [![node](./static/badges/node.svg)](https://github.com/nodejs/node) [![jest](./static/badges/jest_1.svg)](https://jestjs.io) [![github](./static/badges/github.svg)](https://github.com) [![openapi](./static/badges/openapis-ar21.svg)](https://www.openapis.org) [![express](./static/badges/expressjs-ar21.svg)](https://expressjs.com)
 
@@ -6,7 +6,7 @@
 
 ---
 
-## **1.0 - Introduction**
+## <span style="color:#3893cb">Introduction</span>
 
 In the scenario where we would own a store, our business is to actually have an API where you iterate over the bycicles your store has. Considering that, imagine that you have two entities:
 bycicles and stores.
@@ -17,51 +17,68 @@ This API is about that, iterating over the bycicles, making some CRUD and applyi
 
 ---
 
-## **2.0 - Get started**
+## <span style="color:#3893cb">Get started</span>
 
 To start running the project, make sure to do these steps:
 
 - Install all the dependencies:
 
-  npm install <!-- This should install dependencies and devDependencies -->
+  - <span style="color:yellow">npm install</span> <!-- This should install dependencies and devDependencies -->
 
 - If you want to use Docker to set up your database:
 
-  docker compose up <!-- or use the one below  -->
-  npm run db:start
+  - <span style="color:yellow">npm run db:start</span>
 
 Creating the database container will create a new directory that will store all the data that you will put into the database.
 
 - Configure the environments for the database configuration
 
-That environment files must be inside the directory "./app/src/config",
-the file must have the following parameters:
+That environment files must be inside the directory "./app/src/config", there's a **configuration-example.env** that you can use in order to help you configure correctly.
 
-<!-- dev.env -->
+- <span style="color:#66ff66">NODE_ENV=prod</span>
 
-- NODE_ENV=dev
-  The node environment, this with the DB parameter will determine which database are you going to operate
+  - The node environment, this with the DB parameter will determine which database are you going to operate
 
-- HOST=localhost
-  The hostname
+<br>
 
-- DBUSER=postgres
-  The database user, if you use the docker-compose.yaml you must specificate the value of the "POSTGRES_USER"
+- <span style="color:#66ff66">HOST=localhost</span>
 
-- PASSWORD=postgres
-  The database password, if you use the docker-compose.yaml you must specificate the value of the "POSTGRES_PASSWORD"
+  - The hostname
 
-- PORT=5432
-  Port by default that postgres uses
+<br>
 
-- DB=cycling_together_dev
-  The name of the database you are going to operate with
+- <span style="color:#66ff66">DBUSER=postgres</span>
 
-- DIALECT=postgres
-  The dialect you are going to use in Sequelize, basically to know which driver the ORM will need.
+  - The database user, if you use the docker-compose.yaml you must specificate the value of the "POSTGRES_USER"
 
-- LOGGING=true
-  Set true if you want to see the database operations on the console.
+<br>
+
+- <span style="color:#66ff66">PASSWORD=postgres</span>
+
+  - The database password, if you use the docker-compose.yaml you must specificate the value of the "POSTGRES_PASSWORD"
+
+<br>
+
+- <span style="color:#66ff66">PORT=5432</span>
+
+  - Port by default that postgres uses
+
+<br>
+
+- <span style="color:#66ff66">DB=cycling_together</span>
+
+  - The name of the database you are going to operate with
+
+<br>
+
+- <span style="color:#66ff66">DIALECT=postgres</span>
+
+  - The dialect you are going to use in Sequelize, basically to know which driver the ORM will need.
+
+<br>
+
+- <span style="color:#66ff66">LOGGING=true</span>
+  - Set true if you want to see the database operations on the console.
 
 There are three types of .env files:
 
@@ -69,41 +86,57 @@ There are three types of .env files:
 - **dev**: Used to develope the app
 - **prod**: For deployment use
 
-If you don't want to make any development, you can just write down the prod.env file. **Consider that if you want to put different names to the env files, you will have to change the "cross-env NODE_ENV=xx" in the package.json**
+If you don't want to make any development, you can just change the name of the configuration-example.env file to prod.file. **Consider that if you want to put different names to the env files, you will have to change the "cross-env NODE_ENV=xx" in the package.json** (see FAQs).
 
 - Finally, you can use:
 
-  npm run start
+  <span style="color:yellow">npm run start</span>
 
 ---
 
-## **3.0 Technologies**
+## <span style="color:#3893cb">Technologies</span>
 
-- **Language**: JavaScript
-- **Framework**: Express
-- **Testing frameworks**: Jest and Supertest (for http calls)
-- **Documentation**: OpenAPI
-- **ORM**: Sequelize
-- **Database**: PostgreSQL
-- **Development rules (for standard conding format)**: eslint
+| Characteristics    | Technologies     |
+| ------------------ | ---------------- |
+| Languages          | JavaScript       |
+| Framework          | Express          |
+| Testing frameworks | Jest & Supertest |
+| ORM                | Sequelize        |
+| Database           | PostgreSQL       |
+| Development rulers | eslint           |
+| Documentation      | OpenAPI          |
 
 ---
 
-## 4.0 Database scheme
+## <span style="color:#3893cb">Database scheme</span>
 
 ![scheme](./static/scheme.png)
 
 ---
 
-## 5.0 FAQ
+## <span style="color:#3893cb">Development methodology</span>
 
-### How can I create a .env file with a different name?
+I've been using an incremental methodology for the development, I've been writing all the code just by myself, so the way I actually did was to push changes to the development branch and then merge them to the main branch, to make the merge I was asking myself if it was completely functional.
+
+- My first merge was when I acomplished models, routers and controllers and leaving the database for the last, just working with mocks.
+
+- Then the following merge was much more complete, I added more routes to the existing routers and implemented a database with Docker.
+
+- For last, I added OpenAPI to document all the endpoints in an easy and very graphic way.
+
+---
+
+## <span style="color:#3893cb">FAQs</span>
+
+<span style="color:#fafa00">How can I create a .env file with a different name?</span>
 
 Well, imagine that you want to write a .env file called "production.env", you will need to change a few things:
 
 In order to know why do you have to do this, is because in the **dbconfig.js** the environment variables are resolved with the name that you set up with the NODE_ENV parameter on the package json:
 
 ```js
+// dbconfig.js
+
 dotenv.config({
   path: path.resolve(__dirname, `${process.env.NODE_ENV}.env`),
 });
@@ -113,6 +146,8 @@ dotenv.config({
 - Then, change the script in the package json, change NODE_ENV=prod to NODE_ENV=production
 
 ```json
+// package.json
+
 "scripts": {
     "test": "cross-env NODE_ENV=test npm run seed:test && jest --detectOpenHandles",
     "test:models": "jest ./app/test/models",
@@ -130,9 +165,7 @@ dotenv.config({
   }
 ```
 
----
-
-### What are the scripts that start with "seed"?
+<span style="color:#fafa00">What are the scripts that start with "seed"?</span>
 
 These are actually seeders! These are used if you want to have actual data in the database, what they do is to connect to the database (configured in the env files), create the proper tables and insert data.
 
@@ -145,6 +178,8 @@ There are three of them because there are three diferent databases:
 Again, these database names are susceptible to change, you just have to change the parameter DB in the .env file and change the init.sql that is stored inside the ./docker directory:
 
 ```env
+// .env
+
 ... Settings
 
 DB=new_database_name
