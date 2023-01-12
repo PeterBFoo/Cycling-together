@@ -1,137 +1,89 @@
-const Store = require("../db/connection.js").stores;
+const service = require("../services/StoreService.js");
 
 var controller = (function () {
 
-	function findAllStores(req, res) {
-		Store.findAll({ where: {} })
-			.then(data => {
-				res.status(200).send(data);
-			})
-			.catch(err => {
-				res.status(500).send({
-					message:
-						err.message || "Some error occurred while retrieving Stores."
-				});
-			});
+	async function findAllStores(req, res) {
+		let data = await service.findAll();
+
+		if (data.length > 0) {
+			res.status(200).send(data);
+		}
+		else {
+			res.status(204).send(data);
+		}
 	}
 
-	function findAssociatedBikes(req, res) {
-		const storeId = req.params.id;
-		Store.findByPk(storeId, { include: ["bycicles"] })
-			.then(data => {
-				res.status(200).send(data);
-			})
-			.catch(err => {
-				res.status(500).send({
-					message: "Error retrieving Store with id=" + storeId, err
-				});
-			});
+	async function findAssociatedBikes(req, res) {
+		let data = await service.findAssociatedBikes(req.params.id);
+
+		if (data.bycicles.length > 0) {
+			res.status(200).send(data);
+		} else {
+			res.status(204).send(data);
+		}
 	}
 
-	function findOneStore(req, res) {
-		const id = req.params.id;
+	async function findOneStore(req, res) {
+		let data = await service.findOne(req.params.id);
 
-		Store.findByPk(id)
-			.then(data => {
-				if (data) {
-					res.status(200).send(data);
-				} else {
-					res.status(404).send({
-						message: `Cannot find Store with id=${id}. Store not found.`
-					});
-				}
-			})
-			.catch(err => {
-				res.status(500).send({
-					message: "Error retrieving Store with id=" + id, err
-				});
-			});
+		if (data) {
+			res.status(200).send(data);
+		} else {
+			res.status(404).send(data);
+		}
+
 	}
 
-	function updateStore(req, res) {
-		const id = req.params.id;
+	async function updateStore(req, res) {
+		let data = await service.update(req.params.id, req.body);
 
-		Store.update(req.body, {
-			where: { id: id }
-		})
-			.then(num => {
-				if (num == 1) {
-					res.status(200).send({
-						message: "Store was updated successfully."
-					});
-				} else {
-					res.status(404).send({
-						message: `Cannot update Store with id=${id}. Store not found.`
-					});
-				}
-			})
-			.catch(err => {
-				res.status(500).send({
-					message: "Error updating Store with id=" + id, err
-				});
+		if (data == 1) {
+			res.status(200).send({
+				message: "Store was updated successfully."
 			});
+		} else {
+			res.status(404).send({
+				message: `Cannot find Store with id=${req.params.id}.`
+			});
+		}
 	}
 
-	function registerStore(req, res) {
-		Store.create(req.body)
-			.then(data => {
-				res.status(201).send({
-					message: "Store was registered successfully.",
-					data: data
-				});
-			})
-			.catch(err => {
-				res.status(500).send({
-					message:
-						err.message || "Some error occurred while creating the Store."
-				});
-			});
+	async function registerStore(req, res) {
+		let request = await service.create(req.body);
+
+		if (request) {
+			res.status(201).send(request);
+		} else {
+			res.status(500).send(request);
+		}
 	}
 
-	function deleteOne(req, res) {
-		const id = req.params.id;
+	async function deleteOne(req, res) {
+		let request = await service.deleteOne(req.params.id);
 
-		Store.destroy({
-			where: { id: id }
-		})
-			.then(num => {
-				if (num == 1) {
-					res.status(204).send({
-						message: "Store was deleted successfully!"
-					});
-				} else {
-					res.status(404).send({
-						message: `Cannot delete Store with id=${id}. Store not found. `
-					});
-				}
-			})
-			.catch(err => {
-				res.status(500).send({
-					message: "Could not delete Store with id=" + id, err
-				});
+		if (request == 1) {
+			res.status(200).send({
+				message: "Store was deleted successfully."
 			});
+		} else {
+			res.status(404).send({
+				message: `Cannot find Store with id=${req.params.id}.`
+			});
+		}
 	}
 
-	function deleteAll(req, res) {
-		Store.destroy({
-			where: {},
-			truncate: false
-		})
-			.then(nums => {
-				if (nums == 0) {
-					res.status(304).send({
-						message: "Cannot delete stores because there are no stores in the database."
-					});
-				} else {
-					res.status(204).send({ message: `${nums} Stores were deleted successfully!` });
-				}
-			})
-			.catch(err => {
-				res.status(500).send({
-					message:
-						err.message || "Some error occurred while removing all Stores."
-				});
+	async function deleteAll(req, res) {
+		let request = await service.deleteAll();
+
+		if (request > 0) {
+			res.status(200).send({
+				message: request + "All Stores were deleted successfully."
 			});
+		} else {
+			res.status(404).send({
+				message: "No stores were found to delete."
+			});
+		}
 	}
 
 	return {

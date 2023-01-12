@@ -1,145 +1,93 @@
-const Bycicle = require("../db/connection.js").bycicles;
+const service = require("../services/BycicleService.js");
 
 var controller = (function () {
 	// Create and Save a new Bycicle
-	function registerBycicle(req, res) {
+	async function registerBycicle(req, res) {
 		// Save Bycicle in the database
-		Bycicle.create(req.body)
-			.then(data => {
-				res.status(201).send({
-					message: "Bycicle was registered successfully.",
-					data: data
-				});
-			})
-			.catch(err => {
-				if (err.message.includes("bycicles_storeId_fkey")) {
-					res.status(400).send({
-						message: `Store with id ${req.body.storeId} not found.`
-					});
-				} else {
-					res.status(500).send({
-						message:
-							err.message || "Some error occurred while creating the Bycicle."
-					});
-				}
-			});
+		let request = await service.create(req.body);
+
+		if (request) {
+			res.status(201).send(request);
+		} else {
+			res.status(500).send(request);
+		}
 	}
 
-	function filterBy(req, res) {
-		let property = req.params.property;
-		let value = req.params.value;
+	async function filterBy(req, res) {
+		let data = await service.filterBy(req.params.property, req.params.value);
 
-		Bycicle.findAll({ where: { [property]: value } })
-			.then(data => {
-				res.status(200).send(data);
-			})
-			.catch(err => {
-				res.status(500).send({
-					message:
-						err.message || "Some error occurred while retrieving Bycicles."
-				});
-			});
+		if (data.length > 0) {
+			res.status(200).send(data);
+		} else {
+			res.status(204).send(data);
+		}
 	}
 
-	function findAllBycicles(req, res) {
-		Bycicle.findAll({ where: {} })
-			.then(data => {
-				res.status(200).send(data);
-			})
-			.catch(err => {
-				res.status(500).send({
-					message:
-						err.message || "Some error occurred while retrieving Bycicles."
-				});
-			});
+	async function findAllBycicles(req, res) {
+		let data = await service.findAll();
+
+		if (data.length > 0) {
+			res.status(200).send(data);
+		} else {
+			res.status(204).send(data);
+		}
 	}
 
 	// Find a single Bycicle with an id
-	function findOneBycicle(req, res) {
-		let id = req.params.id;
+	async function findOneBycicle(req, res) {
+		let data = await service.findOne(req.params.id);
 
-		Bycicle.findByPk(id)
-			.then(data => {
-				if (data) {
-					res.send(data);
-				} else {
-					res.status(404).send({
-						message: `Cannot find Bycicle with id=${id}. Bycicle was not found.`
-					});
-				}
-			})
-			.catch(err => {
-				res.status(500).send({
-					message: `Error retrieving Bycicle with id=${id}. ${err}`
-				});
-			});
+		if (data) {
+			res.status(200).send(data);
+		} else {
+			res.status(404).send(data);
+		}
 	}
 
 	// Update a Bycicle by the id in the request
-	function updateBycicle(req, res) {
-		let id = req.params.id;
+	async function updateBycicle(req, res) {
+		let data = await service.update(req.params.id, req.body);
 
-		Bycicle.update(req.body, {
-			where: { id: id }
-		})
-			.then(num => {
-				if (num == 1) {
-					res.status(200).send({
-						message: "Bycicle was updated successfully."
-					});
-				} else {
-					res.status(404).send({
-						message: `Cannot update Bycicle with id=${id}. Bycicle was not found.`
-					});
-				}
-			})
-			.catch(err => {
-				res.status(500).send({
-					message: `Error updating Bycicle with id=${id}. ${err}`
-				});
+		if (data == 1) {
+			res.status(200).send({
+				message: "Bycicle was updated successfully."
 			});
+		} else {
+			res.status(404).send({
+				message: `Cannot find Bycicle with id=${req.params.id}.`
+			});
+		}
 	}
 
 	// Delete a Bycicle with the specified id in the request
-	function deleteBycicle(req, res) {
-		let id = req.params.id;
+	async function deleteBycicle(req, res) {
+		let request = await service.deleteOne(req.params.id);
 
-		Bycicle.destroy({
-			where: { id: id }
-		})
-			.then(num => {
-				if (num == 1) {
-					res.status(204).send({
-						message: "Bycicle was deleted successfully!"
-					});
-				} else {
-					res.status(404).send({
-						message: `Cannot delete Bycicle with id=${id}. Maybe Bycicle was not found!`
-					});
-				}
-			})
-			.catch(err => {
-				res.status(500).send({
-					message: "Could not delete Bycicle with id=" + id, err
-				});
+		if (request == 1) {
+			res.status(200).send({
+				message: "Bycicle was deleted successfully!"
 			});
+		} else {
+			res.status(404).send({
+				message: `Cannot find Bycicle with id=${req.params.id}.`
+			});
+		}
 	}
 
 	// Delete all Bycicles from the database.
-	function deleteAllBycicles(req, res) {
-		Bycicle.destroy({
-			where: {},
-			truncate: false
-		})
-			.then(nums => {
-				res.send({ message: `${nums} Bycicles were deleted successfully!` });
-			})
-			.catch(err => {
-				res.status(500).send({
-					message:
-						err.message || "Some error occurred while removing all Bycicles."
-				});
+	async function deleteAllBycicles(req, res) {
+		let request = await service.deleteAll();
+
+		if (request > 0) {
+			res.status(200).send({
+				message: request + " Bycicles were deleted successfully!"
 			});
+		} else {
+			res.status(404).send({
+				message: "No Bycicles were deleted."
+			});
+		}
+
 	}
 
 	return {

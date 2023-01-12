@@ -1,10 +1,6 @@
 const request = require("supertest");
 const app = require("../../app");
 
-afterAll(() => {
-    cleanUp();
-});
-
 test("GET /stores", async () => {
     const response = await request(app).get("/stores");
 
@@ -43,8 +39,7 @@ test("POST /stores/register 201", async () => {
         })
         .expect(201)
         .expect((res) => {
-            expect(res.body.message).toEqual("Store was registered successfully.");
-            expect(res.body.data).toHaveProperty("id");
+            expect(res.body).toHaveProperty("id");
         });
 });
 
@@ -61,8 +56,8 @@ test("POST /stores/register 201 without optional parameters", async () => {
         })
         .expect(201)
         .expect((res) => {
-            expect(res.body.message).toEqual("Store was registered successfully.");
-            expect(res.body.data).toHaveProperty("id");
+            console.log(res);
+            expect(res.body).toHaveProperty("id");
         });
 });
 
@@ -112,7 +107,7 @@ test("DELETE /stores/delete/one/:id 204", async () => {
 
     await request(app)
         .delete("/stores/delete/one/" + id)
-        .expect(204);
+        .expect(200);
 });
 
 test("DELETE /stores/delete/one/:id 404", async () => {
@@ -122,7 +117,3 @@ test("DELETE /stores/delete/one/:id 404", async () => {
         .delete("/stores/delete/one/" + id)
         .expect(404);
 });
-
-async function cleanUp() {
-    await request(app).delete("/stores/delete/all");
-}
