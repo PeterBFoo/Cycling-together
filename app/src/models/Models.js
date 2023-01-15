@@ -1,15 +1,25 @@
 const DataTypes = require("sequelize");
-const bycicleModel = require("./bycicle/BycicleModel.js").get();
-const storeModel = require("./store/StoreModel.js").get();
+const bycicleModel = require("./bycicle/BycicleModel").get();
+const storeModel = require("./store/StoreModel").get();
+const bookingModel = require("./booking/BookingModel").get();
 
 const Models = {
 	bycicle: function (sequelize) {
-		const Bycicle = sequelize.define("bycicles", bycicleModel.properties(DataTypes));
-		return Bycicle;
+		return sequelize.define("bycicles", bycicleModel.properties(DataTypes));
 	},
 	store: function (sequelize) {
-		const Store = sequelize.define("stores", storeModel.properties(DataTypes));
-		return Store;
+		return sequelize.define("stores", storeModel.properties(DataTypes));
+	},
+	booking: function (sequelize) {
+		let properties = bookingModel.properties(DataTypes);
+
+		properties.publicId = {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: true
+		};
+
+		return sequelize.define("bookings", properties);
 	}
 };
 
