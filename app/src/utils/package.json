@@ -1,0 +1,19 @@
+{
+  "name": "utils",
+  "version": "1.0.0",
+  "description": "Utils for Cycling Together API",
+  "main": "utils.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PeterBFoo/Cycling-Together.git"
+  },
+  "author": "PeterBFoo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PeterBFoo/Cycling-Together/issues"
+  },
+  "homepage": "https://github.com/PeterBFoo/Cycling-Together#readme"
+}
