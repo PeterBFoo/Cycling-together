@@ -14,6 +14,10 @@ ModelError.prototype.invalidProperties = function () {
 	throw this.model + ": Invalid properties";
 };
 
+ModelError.prototype.invalidProperty = function (property) {
+	throw this.model + ": This property can't be manually set! -> " + property;
+};
+
 var modelError = function (model) {
 	let error = new ModelError(model);
 	return {
@@ -22,6 +26,9 @@ var modelError = function (model) {
 		},
 		notNullable: function (property) {
 			return error.notNullable(property);
+		},
+		invalidProperty: function (property) {
+			return error.invalidProperty(property);
 		},
 		invalidProperties: function () {
 			return error.invalidProperties();
