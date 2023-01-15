@@ -12,7 +12,8 @@
     "groupSet": "Shimano Deore",
     "driveTrain": "1x10 speed",
     "frontTravel": "120 mm",
-    "seatpost": "Bontrager Rhythm Elite"
+    "seatpost": "Bontrager Rhythm Elite",
+    "price": 39.49
   },
   {
     "category": "Road Bike",
@@ -27,6 +28,7 @@
     "groupSet": "Shimano Ultegra Di2 electronic",
     "driveTrain": "2x11 speed",
     "frontTravel": null,
+    "price": 69.99,
     "seatpost": "Specialized S-Works carbon fiber"
   },
   {
@@ -42,6 +44,7 @@
     "groupSet": "Shimano Altus",
     "driveTrain": "1x8 speed",
     "frontTravel": "63 mm",
+    "price": 24.99,
     "seatpost": "Giant D-Fuse"
   },
   {
@@ -57,6 +60,7 @@
     "groupSet": "Shimano Altus",
     "driveTrain": "1x9 speed",
     "frontTravel": "120 mm",
+    "price": 35.99,
     "seatpost": "Bontrager Rhythm Elite"
   },
   {
@@ -72,6 +76,7 @@
     "groupSet": "Shimano Altus",
     "driveTrain": "1x7 speed",
     "frontTravel": "63 mm",
+    "price": 29.99,
     "seatpost": "Electra Custom"
   },
   {
@@ -87,6 +92,7 @@
     "groupSet": "Shimano Tourney",
     "driveTrain": "1x7 speed",
     "frontTravel": null,
+    "price": 19.99,
     "seatpost": "WOOM Custom"
   },
   {
@@ -102,6 +108,7 @@
     "groupSet": "Shimano Deore",
     "driveTrain": "1x10 speed",
     "frontTravel": null,
+    "price": 29.99,
     "seatpost": "Surly Troll"
   },
   {
@@ -117,6 +124,7 @@
     "groupSet": "SRAM Force",
     "driveTrain": "1x11 speed",
     "frontTravel": null,
+    "price": 49.99,
     "seatpost": "Cannondale SAVE Carbon"
   },
   {
@@ -132,6 +140,7 @@
     "groupSet": null,
     "driveTrain": "Single speed",
     "frontTravel": null,
+    "price": 19.99,
     "seatpost": "Sixthreezero Custom"
   },
   {
@@ -147,6 +156,7 @@
     "groupSet": "Shimano Ultegra Di2 electronic",
     "driveTrain": "2x11 speed",
     "frontTravel": null,
+    "price": 49.99,
     "seatpost": "Felt Vibration Reducing Aero Road flip position"
   },
   {
@@ -162,6 +172,7 @@
     "groupSet": "Shimano Altus",
     "driveTrain": "1x8 speed",
     "frontTravel": "63 mm",
+    "price": 24.99,
     "seatpost": "Giant D-Fuse"
   },
   {
@@ -177,6 +188,7 @@
     "groupSet": "Shimano Altus",
     "driveTrain": "1x9 speed",
     "frontTravel": "120 mm",
+    "price": 35.99,
     "seatpost": "Bontrager Rhythm Elite"
   },
   {
@@ -192,6 +204,7 @@
     "groupSet": "Shimano Ultegra Di2 electronic",
     "driveTrain": "2x11 speed",
     "frontTravel": null,
+    "price": 49.99,
     "seatpost": "Felt Vibration Reducing Aero Road flip position"
   }
 ]
