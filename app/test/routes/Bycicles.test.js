@@ -46,6 +46,7 @@ test("POST /bycicles/register", async () => {
             "driveTrain": "2x11 speed",
             "frontTravel": null,
             "seatpost": "Specialized S-Works carbon fiber",
+            "price": 29.99,
             "storeId": 1
         })
         .expect((res) => {
@@ -67,6 +68,7 @@ test("POST /bycicles/register 201 without optional parameters", async () => {
             "brakes": "Shimano MT200 hydraulic disc",
             "driveTrain": "1x10 speed",
             "seatpost": "Bontrager Rhythm Elite",
+            "price": 19.99,
             "storeId": 1
         })
         .expect((res) => {
@@ -99,6 +101,7 @@ test("PUT /bycicles/update/:id", async () => {
             "driveTrain": "2x11 speed",
             "frontTravel": null,
             "seatpost": "Specialized S-Works carbon fiber",
+            "price": 29.99,
             "storeId": 1
         })
         .expect(200);
@@ -122,6 +125,7 @@ test("PUT /bycicles/update/:id 404", async () => {
             "driveTrain": "2x11 speed",
             "frontTravel": null,
             "seatpost": "Specialized S-Works carbon fiber",
+            "price": 29.99,
             "storeId": 1
         })
         .expect(404);

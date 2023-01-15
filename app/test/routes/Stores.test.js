@@ -56,7 +56,6 @@ test("POST /stores/register 201 without optional parameters", async () => {
         })
         .expect(201)
         .expect((res) => {
-            console.log(res);
             expect(res.body).toHaveProperty("id");
         });
 });

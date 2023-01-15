@@ -1,3 +1,4 @@
+const { test, expect } = require("@jest/globals");
 const bycicleModel = require("../../src/models/bycicle/BycicleModel.js");
 
 test("Create a new bycicle with empty properties", () => {
@@ -5,37 +6,79 @@ test("Create a new bycicle with empty properties", () => {
 	expect(bycicle);
 });
 
+test("Create some bycicles", () => {
+	let bycicle = bycicleModel.get().setup(
+		{
+			"category": "Mountain Bike",
+			"brand": "Trek",
+			"weight": 14.5,
+			"frame": "Aluminum",
+			"suspension": "Full suspension",
+			"fork": "RockShox Recon RL",
+			"wheels": "Bontrager Kovee Comp 23",
+			"wheelSize": 73,
+			"brakes": "Shimano MT200 hydraulic disc",
+			"groupSet": "Shimano Deore",
+			"driveTrain": "1x10 speed",
+			"frontTravel": "120 mm",
+			"seatpost": "Bontrager Rhythm Elite",
+			"price": 39.49,
+			"storeId": 1
+		}
+	);
+	let bycicle2 = bycicleModel.get().setup(
+		{
+			"category": "Road Bike",
+			"brand": "Specialized",
+			"weight": 8.3,
+			"frame": "Carbon fiber",
+			"suspension": null,
+			"fork": "Specialized FACT carbon fiber",
+			"wheels": "Specialized Roval CLX 50 Disc",
+			"wheelSize": 62,
+			"brakes": "Shimano Ultegra hydraulic disc",
+			"groupSet": "Shimano Ultegra Di2 electronic",
+			"driveTrain": "2x11 speed",
+			"frontTravel": null,
+			"price": 69.99,
+			"seatpost": "Specialized S-Works carbon fiber",
+			"storeId": 1
+		}
+	);
+	expect(bycicle == bycicle2).toBeFalsy();
+});
+
 test("Create a new bycicle with properties", () => {
-	let bycicle = bycicleModel.get();
-	let p = {
-		"category": "Road Bike",
-		"brand": "Specialized",
-		"weight": 8.3,
-		"frame": "Carbon fiber",
-		"suspension": null,
-		"fork": "Specialized FACT carbon fiber",
-		"wheels": "Specialized Roval CLX 50 Disc",
-		"wheelSize": 62,
-		"brakes": "Shimano Ultegra hydraulic disc",
-		"groupSet": "Shimano Ultegra Di2 electronic",
-		"driveTrain": "2x11 speed",
-		"frontTravel": null,
-		"seatpost": "Specialized S-Works carbon fiber",
-		"storeId": 1
-	};
-	bycicle.setup(p);
+	let bycicle = bycicleModel.get().setup(
+		{
+			"category": "Road Bike",
+			"brand": "Specialized",
+			"weight": 8.3,
+			"frame": "Carbon fiber",
+			"suspension": null,
+			"fork": "Specialized FACT carbon fiber",
+			"wheels": "Specialized Roval CLX 50 Disc",
+			"wheelSize": 62,
+			"brakes": "Shimano Ultegra hydraulic disc",
+			"groupSet": "Shimano Ultegra Di2 electronic",
+			"driveTrain": "2x11 speed",
+			"frontTravel": null,
+			"seatpost": "Specialized S-Works carbon fiber",
+			"price": 5000,
+			"storeId": 1
+		}
+	);
 
 	let properties = Object.getOwnPropertyNames(bycicle.properties());
 	let propertiesDetails = bycicle.properties();
 
 	for (let i = 0; i < properties.length; i++) {
 		let property = properties[i];
-		if (propertiesDetails[property].allowNull && bycicle[property] === null) {
+		if (propertiesDetails[property].allowNull && bycicle[property] === null || propertiesDetails[property].defaultValue === false) {
 			expect(bycicle[property]).toBeFalsy();
 		} else {
 			expect(bycicle[property]).toBeTruthy();
 		}
-
 	}
 });
 
@@ -76,6 +119,7 @@ test("Create a new bycicle without optional parameters", () => {
 			"brakes": "Shimano MT200 hydraulic disc",
 			"driveTrain": "1x10 speed",
 			"seatpost": "Bontrager Rhythm Elite",
+			"price": 1500,
 			"storeId": 1
 		}
 	);
