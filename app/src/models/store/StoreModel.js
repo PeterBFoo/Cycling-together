@@ -112,10 +112,9 @@ Store.prototype.setup = function (newStore) {
 	if (isValid(newStore, Object.keys(properties), properties)) {
 		Object.keys(properties).forEach((property) => {
 			if (matchesDesiredType(properties[property], newStore[property])) {
-				if (newStore[property] == undefined) this[property] = null;
-				else this[property] = newStore[property];
+				if (newStore[property] == undefined) newStore[property] = null;
 			} else if (canBeConvertedToNumber(properties[property].type, newStore[property])) {
-				this[property] = parseInt(newStore[property]);
+				newStore[property] = parseInt(newStore[property]);
 			} else {
 				if (newStore[property] == null) {
 					return modelError.notNullable(property);
@@ -128,7 +127,8 @@ Store.prototype.setup = function (newStore) {
 		return modelError.invalidProperties();
 	}
 
-	return this;
+	Object.setPrototypeOf(newStore, Store.prototype);
+	return newStore;
 };
 
 var store = (function () {

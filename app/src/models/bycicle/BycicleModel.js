@@ -14,7 +14,15 @@ function Bycicle() {
  * @param {String[]} desiredProperties
  * @returns boolean
  */
-function isValid(newBike, desiredProperties, propertiesDescriptions) {
+function isValid(newBike, desiredProperties, propertiesDescriptions, nonDesiredProperties) {
+	if (nonDesiredProperties) {
+		nonDesiredProperties.forEach(property => {
+			if (newBike[property]) {
+				return modelError.forbiddenProperty(property);
+			}
+		});
+	}
+
 	let properties = Object.keys(newBike);
 	let matches = 0;
 	let matchesWithNull = 0;
@@ -24,7 +32,7 @@ function isValid(newBike, desiredProperties, propertiesDescriptions) {
 		if (propertiesDescriptions[propertyName].allowNull && newBike[propertyName] == undefined) matchesWithNull++;
 	});
 
-	if (matches == desiredProperties.length || matchesWithNull + matches == desiredProperties.length) {
+	if (matches == desiredProperties.length - nonDesiredProperties.length || matchesWithNull + matches == desiredProperties.length - nonDesiredProperties.length) {
 		return true;
 	} else {
 		return false;
@@ -61,7 +69,8 @@ function matchesDesiredType(property, value) {
 Bycicle.prototype.properties = function (DataTypes = {
 	STRING: "string",
 	INTEGER: "number",
-	FLOAT: "number"
+	FLOAT: "number",
+	BOOLEAN: "boolean"
 }) {
 	var properties = {
 		category: {
@@ -116,6 +125,15 @@ Bycicle.prototype.properties = function (DataTypes = {
 			type: DataTypes.STRING,
 			allowNull: false
 		},
+		price: {
+			type: DataTypes.FLOAT,
+			allowNull: false
+		},
+		isRented: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: false,
+			allowNull: false
+		},
 		storeId: {
 			type: DataTypes.INTEGER,
 			allowNull: false
@@ -133,12 +151,17 @@ Bycicle.prototype.properties = function (DataTypes = {
  */
 Bycicle.prototype.setup = function (newBike) {
 	let properties = this.properties();
+	const defaultProperties = {
+		isRented: properties.isRented
+	};
 
-	if (isValid(newBike, Object.keys(properties), properties)) {
+	if (isValid(newBike, Object.keys(properties), properties, Object.keys(defaultProperties))) {
+		Object.keys(defaultProperties).forEach((property) => {
+			newBike[property] = defaultProperties[property].defaultValue;
+		});
 		Object.keys(properties).forEach((property) => {
 			if (matchesDesiredType(properties[property], newBike[property])) {
-				if (newBike[property] == undefined) this[property] = null;
-				else this[property] = newBike[property];
+				if (newBike[property] == undefined) newBike[property] = null;
 			} else {
 				if (newBike[property] == null) {
 					return modelError.notNullable(property);
@@ -150,7 +173,8 @@ Bycicle.prototype.setup = function (newBike) {
 		return modelError.invalidProperties();
 	}
 
-	return this;
+	Object.setPrototypeOf(newBike, this);
+	return newBike;
 };
 
 var bycicle = (function () {
