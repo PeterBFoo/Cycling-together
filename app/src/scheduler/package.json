@@ -1,0 +1,22 @@
+{
+  "name": "scheduler",
+  "version": "1.0.0",
+  "description": "Scheduler to activate bookings that have to be active due to his dates",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PeterBFoo/Cycling-Together.git"
+  },
+  "author": "PeterBFoo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PeterBFoo/Cycling-Together/issues"
+  },
+  "homepage": "https://github.com/PeterBFoo/Cycling-Together#readme",
+  "dependencies": {
+    "node-cron": "^3.0.2"
+  }
+}
