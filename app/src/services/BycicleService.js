@@ -11,7 +11,7 @@ var service = (() => {
     }
 
     function findAll() {
-        return Bycicle.findAll({ where: {} });
+        return Bycicle.findAll();
     }
 
     function findOne(id) {
@@ -37,6 +37,24 @@ var service = (() => {
         });
     }
 
+    function preparePublicBycicleData(bycicle) {
+        return {
+            category: bycicle.category,
+            brand: bycicle.brand,
+            weight: bycicle.weight,
+            frame: bycicle.frame,
+            suspension: bycicle.suspension,
+            fork: bycicle.fork,
+            wheels: bycicle.wheels,
+            wheelSize: bycicle.wheelSize,
+            brakes: bycicle.brakes,
+            groupSet: bycicle.groupSet,
+            driveTrain: bycicle.driveTrain,
+            frontTravel: bycicle.frontTravel,
+            seatpost: bycicle.seatpost,
+        };
+    }
+
     return {
         create,
         filterBy,
@@ -44,7 +62,8 @@ var service = (() => {
         findOne,
         update,
         deleteOne,
-        deleteAll
+        deleteAll,
+        preparePublicBycicleData
     };
 })();
 
