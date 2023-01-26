@@ -55,7 +55,4 @@ router.delete("/delete/one/:id", storeController.deleteOne);
 // Delete all stores
 router.delete("/delete/all", storeController.deleteAll);
 
-// Find all the bycicles that are in a store
-router.get("/:id/bycicles", storeController.findAssociatedBikes);
-
 module.exports = router;
