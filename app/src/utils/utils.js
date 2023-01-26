@@ -17,13 +17,13 @@ Utils.prototype.validDate = function (date) {
  * @param {String} date 
  * @returns {Date, Boolean}
  */
-Utils.prototype.createDate = function (date, time = "00:00") {
+Utils.prototype.createDate = function (date, time = "12:00") {
     let fragmentedDate = date.includes("/") ? date.split("/") : date.split("-");
     let fragmentedTime = time.includes(":") ? time.split(":") : null;
 
     let year = parseInt(fragmentedDate[0]);
     let month = parseInt(fragmentedDate[1]) - 1;
-    let day = parseInt(fragmentedDate[2]) + 1;
+    let day = parseInt(fragmentedDate[2]);
     let hours = parseInt(fragmentedTime[0]);
     let minutes = parseInt(fragmentedTime[1]);
 
@@ -32,6 +32,28 @@ Utils.prototype.createDate = function (date, time = "00:00") {
 
     return newDate;
 };
+
+Utils.prototype.parseDateToString = function (date) {
+    var d = new Date(date),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = "0" + month;
+    if (day.length < 2)
+        day = "0" + day;
+
+    return [year, month, day].join("-");
+};
+
+Utils.prototype.isValidDate = function (startDate, endDate) {
+    let nowInSeconds = new Date().getTime() / 1000 - 300;
+    let sDate = (this.createDate(startDate)).getTime() / 1000;
+    let eDate = (this.createDate(endDate)).getTime() / 1000;
+    return sDate > nowInSeconds && eDate > nowInSeconds && sDate <= eDate;
+};
+
 
 var utils = (function () {
     let instance = new Utils();
@@ -44,6 +66,12 @@ var utils = (function () {
         },
         createDate: function () {
             return this.createDate;
+        },
+        parseDateToString: function (date) {
+            return this.parseDateToString(date);
+        },
+        isValidDate: function (startDate, endDate) {
+            return this.isValidDate(startDate, endDate);
         }
     };
 })();

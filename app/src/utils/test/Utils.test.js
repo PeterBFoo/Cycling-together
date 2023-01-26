@@ -15,7 +15,12 @@ test("Check that validDate works as expected and returns a boolean", function ()
 })
 
 test("Check that createDate works as expected and returns a Date", function () {
-    expect(util.createDate(date)).toBeInstanceOf(Date);
+    let date = util.createDate("2022-01-01");
+    expect(date).toBeInstanceOf(Date);
+
+    expect(date.getFullYear()).toBe(2022);
+    expect(date.getMonth()).toBe(0);
+    expect(date.getDate()).toBe(2);
 })
 
 test("Check that createDate works as expected and returns a Date and with added hours", function () {
