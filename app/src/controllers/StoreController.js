@@ -13,16 +13,6 @@ var controller = (function () {
 		}
 	}
 
-	async function findAssociatedBikes(req, res) {
-		let data = await service.findAssociatedBikes(req.params.id);
-
-		if (data.bycicles.length > 0) {
-			res.status(200).send(data);
-		} else {
-			res.status(204).send(data);
-		}
-	}
-
 	async function findOneStore(req, res) {
 		let data = await service.findOne(req.params.id);
 
@@ -92,8 +82,7 @@ var controller = (function () {
 		updateStore,
 		registerStore,
 		deleteOne,
-		deleteAll,
-		findAssociatedBikes
+		deleteAll
 	};
 })();
 
