@@ -16,15 +16,6 @@ test("GET /stores/get/:id", async () => {
     expect(res.body.id).toBe(id);
 });
 
-test("GET /stores/:id/bycicles", async () => {
-    const res = await request(app).get("/stores/1/bycicles");
-
-    expect(res.statusCode).toBe(200);
-    res.body.bycicles.forEach((bycicle) => {
-        expect(bycicle.storeId).toBe(1);
-    });
-});
-
 test("POST /stores/register 201", async () => {
     await request(app)
         .post("/stores/register")

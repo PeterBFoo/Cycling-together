@@ -46,8 +46,7 @@ test("POST /bycicles/register", async () => {
             "driveTrain": "2x11 speed",
             "frontTravel": null,
             "seatpost": "Specialized S-Works carbon fiber",
-            "price": 29.99,
-            "storeId": 1
+            "price": 29.99
         })
         .expect((res) => {
             expect(res.statusCode).toBe(201);
@@ -68,8 +67,7 @@ test("POST /bycicles/register 201 without optional parameters", async () => {
             "brakes": "Shimano MT200 hydraulic disc",
             "driveTrain": "1x10 speed",
             "seatpost": "Bontrager Rhythm Elite",
-            "price": 19.99,
-            "storeId": 1
+            "price": 19.99
         })
         .expect((res) => {
             expect(res.statusCode).toBe(201);
@@ -133,8 +131,8 @@ test("PUT /bycicles/update/:id 404", async () => {
     expect(res.body.message).toContain("Cannot find Bycicle with id=943.");
 });
 
-test("DELETE /bycicles/delete/:id 204", async () => {
-    let id = 1;
+test("DELETE /bycicles/delete/:id 200", async () => {
+    let id = 13;
     await request(app)
         .delete("/bycicles/delete/one/" + id)
         .expect(200);
