@@ -14,15 +14,7 @@ function Bycicle() {
  * @param {String[]} desiredProperties
  * @returns boolean
  */
-function isValid(newBike, desiredProperties, propertiesDescriptions, nonDesiredProperties) {
-	if (nonDesiredProperties) {
-		nonDesiredProperties.forEach(property => {
-			if (newBike[property]) {
-				return modelError.forbiddenProperty(property);
-			}
-		});
-	}
-
+function isValid(newBike, desiredProperties, propertiesDescriptions) {
 	let properties = Object.keys(newBike);
 	let matches = 0;
 	let matchesWithNull = 0;
@@ -32,7 +24,7 @@ function isValid(newBike, desiredProperties, propertiesDescriptions, nonDesiredP
 		if (propertiesDescriptions[propertyName].allowNull && newBike[propertyName] == undefined) matchesWithNull++;
 	});
 
-	if (matches == desiredProperties.length - nonDesiredProperties.length || matchesWithNull + matches == desiredProperties.length - nonDesiredProperties.length) {
+	if (matches == desiredProperties.length || matchesWithNull + matches == desiredProperties.length) {
 		return true;
 	} else {
 		return false;
@@ -128,15 +120,6 @@ Bycicle.prototype.properties = function (DataTypes = {
 		price: {
 			type: DataTypes.FLOAT,
 			allowNull: false
-		},
-		isRented: {
-			type: DataTypes.BOOLEAN,
-			defaultValue: false,
-			allowNull: false
-		},
-		storeId: {
-			type: DataTypes.INTEGER,
-			allowNull: false
 		}
 	};
 	return properties;
@@ -151,14 +134,8 @@ Bycicle.prototype.properties = function (DataTypes = {
  */
 Bycicle.prototype.setup = function (newBike) {
 	let properties = this.properties();
-	const defaultProperties = {
-		isRented: properties.isRented
-	};
 
-	if (isValid(newBike, Object.keys(properties), properties, Object.keys(defaultProperties))) {
-		Object.keys(defaultProperties).forEach((property) => {
-			newBike[property] = defaultProperties[property].defaultValue;
-		});
+	if (isValid(newBike, Object.keys(properties), properties)) {
 		Object.keys(properties).forEach((property) => {
 			if (matchesDesiredType(properties[property], newBike[property])) {
 				if (newBike[property] == undefined) newBike[property] = null;

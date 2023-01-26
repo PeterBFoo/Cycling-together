@@ -52,10 +52,6 @@ function matchesDesiredType(property, value) {
 	return false;
 }
 
-function canBeConvertedToNumber(desiredType, value) {
-	return typeof parseInt(value) == desiredType;
-}
-
 /**
  * Defines properties of a store. Used to control which data is being created in each field
  * and to know which fields the database will be using.
@@ -113,8 +109,6 @@ Store.prototype.setup = function (newStore) {
 		Object.keys(properties).forEach((property) => {
 			if (matchesDesiredType(properties[property], newStore[property])) {
 				if (newStore[property] == undefined) newStore[property] = null;
-			} else if (canBeConvertedToNumber(properties[property].type, newStore[property])) {
-				newStore[property] = parseInt(newStore[property]);
 			} else {
 				if (newStore[property] == null) {
 					return modelError.notNullable(property);
