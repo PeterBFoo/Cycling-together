@@ -6,9 +6,6 @@ var service = (() => {
         return Store.create(store);
     }
 
-    function findAssociatedBikes(storeId) {
-        return Store.findByPk(storeId, { include: ["bycicles"] });
-    }
 
     function findAll() {
         return Store.findAll({ where: {} });
@@ -37,14 +34,26 @@ var service = (() => {
         });
     }
 
+    function preparePublicStoreData(store) {
+        return {
+            storeName: store.storeName,
+            address: store.address,
+            city: store.city,
+            country: store.country,
+            phoneNumber: store.phoneNumber,
+            email: store.email,
+            website: store.website
+        };
+    }
+
     return {
         create,
-        findAssociatedBikes,
         findAll,
         findOne,
         update,
         deleteOne,
-        deleteAll
+        deleteAll,
+        preparePublicStoreData
     };
 })();
 
