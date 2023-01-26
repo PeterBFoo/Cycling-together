@@ -39,7 +39,7 @@ function matchesDesiredType(property, value) {
     for (let i = 0; i < desiredTypes.length; i++) {
         let desiredType = desiredTypes[i];
         if (desiredType == null && value == null) return true;
-        else if (typeof value === desiredType && Boolean(value) || utils.validDate(value)) return true;
+        else if (typeof value == desiredType || utils.validDate(value)) return true;
     }
 
     return false;
@@ -83,12 +83,31 @@ Booking.prototype.properties = function (DataTypes = {
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        publicId: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            primaryKey: true
+        },
         startDate: {
             type: DataTypes.DATE,
             allowNull: false
         },
         endDate: {
             type: DataTypes.DATE,
+            allowNull: false
+        },
+        isActive: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
+        canceled: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
+        total: {
+            type: DataTypes.FLOAT,
             allowNull: false
         }
     };
@@ -98,7 +117,7 @@ Booking.prototype.properties = function (DataTypes = {
 Booking.prototype.generatePublicId = function () {
     const crypto = require("crypto");
     return crypto.randomBytes(4).toString("hex").toUpperCase();
-}
+};
 
 /**
  * Sets the properties of a booking
@@ -110,6 +129,15 @@ Booking.prototype.generatePublicId = function () {
 Booking.prototype.setup = function (newBooking) {
     let properties = this.properties();
 
+    if (newBooking.publicId == undefined) newBooking.publicId = this.generatePublicId();
+    if (newBooking.canceled == undefined) newBooking.canceled = false;
+
+    if (this.activateBookings([newBooking]).length > 0) {
+        newBooking.isActive = true;
+    } else {
+        newBooking.isActive = false;
+    }
+
     if (isValid(newBooking, Object.keys(properties), properties)) {
         Object.keys(properties).forEach((property) => {
             if (matchesDesiredType(properties[property], newBooking[property])) {
@@ -119,16 +147,55 @@ Booking.prototype.setup = function (newBooking) {
                 if (newBooking[property] == null) {
                     return modelError.notNullable(property);
                 }
-                return modelError.propertyType(property, typeof property, properties[property].type);
+                return modelError.propertyType(property, typeof newBooking[property], properties[property].type);
             }
         });
     } else {
         return modelError.invalidProperties();
     }
 
-    newBooking.publicId = this.generatePublicId();
     Object.setPrototypeOf(newBooking, this);
+
     return newBooking;
+};
+
+/**
+ * 
+ * @param {Array[Booking]} bookings 
+ * @returns {Array}
+ */
+Booking.prototype.activateBookings = function (bookings) {
+    let now = new Date().getTime();
+    let activeBookings = [];
+
+    bookings.forEach((booking) => {
+        let startDate = new Date(booking.startDate).getTime();
+        let endDate = new Date(booking.endDate).getTime();
+
+        if (now > startDate && now < endDate && !booking.isActive) {
+            booking.isActive = true;
+            activeBookings.push(booking);
+        }
+    });
+
+    return activeBookings;
+};
+
+Booking.prototype.deactivateBookings = function (bookings) {
+
+    let now = new Date().getTime();
+    let deactiveBookings = [];
+
+    bookings.forEach((booking) => {
+        let startDate = new Date(booking.startDate).getTime();
+        let endDate = new Date(booking.endDate).getTime();
+
+        if ((now < startDate || now > endDate) && booking.isActive) {
+            deactiveBookings.push(this.setup(booking));
+        }
+    });
+
+    return deactiveBookings;
 };
 
 var booking = (function () {
@@ -142,6 +209,12 @@ var booking = (function () {
         },
         properties: function () {
             return this.properties;
+        },
+        activateBookings: function () {
+            return this.activateBookings;
+        },
+        deactivateBookings: function () {
+            return this.deactivateBookings;
         }
     };
 })();
