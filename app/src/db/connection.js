@@ -27,15 +27,18 @@ db.connection = sequelize;
 db.bycicles = models.bycicle(sequelize);
 db.stores = models.store(sequelize);
 db.bookings = models.booking(sequelize);
+db.availabilities = models.availability(sequelize);
 
 /**
  * Relations
  */
 
+// STORES //
+
 /**
- * Store has many bycicles
+ * Store has many availabilities
  */
-db.stores.hasMany(db.bycicles, {
+db.stores.hasMany(db.availabilities, {
 	foreignKey: {
 		name: "storeId",
 		allowNull: false
@@ -44,19 +47,12 @@ db.stores.hasMany(db.bycicles, {
 	onUpdate: "CASCADE"
 });
 
-/**
- * Bycicle belongs to one store
- */
-db.bycicles.belongsTo(db.stores, {
-	foreignKey: {
-		name: "storeId",
-		allowNull: false
-	},
-	onDelete: "CASCADE",
-	onUpdate: "CASCADE"
-});
+// BYCICLES //
 
-db.bycicles.hasMany(db.bookings,
+/**
+ * Bycicle has one availability
+ */
+db.bycicles.hasOne(db.availabilities,
 	{
 		foreignKey: {
 			name: "bycicleId",
@@ -67,12 +63,71 @@ db.bycicles.hasMany(db.bookings,
 		hooks: true
 	});
 
+// AVAILABILITIES //
+
 /**
- * Booking has one bycicle
+ * Availability belongs to one bycicle
  */
-db.bookings.belongsTo(db.bycicles, {
+db.availabilities.belongsTo(db.bycicles, {
 	foreignKey: {
 		name: "bycicleId",
+		allowNull: false
+	},
+	onDelete: "CASCADE",
+	onUpdate: "CASCADE"
+});
+
+/**
+ * Availability belongs to one store
+ */
+db.availabilities.belongsTo(db.stores, {
+	foreignKey: {
+		name: "storeId",
+		allowNull: false
+	},
+	onDelete: "CASCADE",
+	onUpdate: "CASCADE"
+});
+
+/**
+ * Availability has one booking
+ */
+db.availabilities.hasOne(db.bookings, {
+	foreignKey: {
+		name: "bycicleId",
+		allowNull: false
+	},
+	onDelete: "CASCADE",
+	onUpdate: "CASCADE"
+});
+
+db.availabilities.hasOne(db.bookings, {
+	foreignKey: {
+		name: "storeId",
+		allowNull: false
+	},
+	onDelete: "CASCADE",
+	onUpdate: "CASCADE"
+});
+
+// BOOKINGS //
+/**
+ * Booking belong to one availability
+ */
+db.bookings.belongsTo(db.availabilities, {
+	as: "bycicle",
+	foreignKey: {
+		name: "bycicleId",
+		allowNull: false
+	},
+	onDelete: "CASCADE",
+	onUpdate: "CASCADE"
+});
+
+db.bookings.belongsTo(db.availabilities, {
+	as: "store",
+	foreignKey: {
+		name: "storeId",
 		allowNull: false
 	},
 	onDelete: "CASCADE",
