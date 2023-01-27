@@ -6,14 +6,30 @@
 
 ---
 
+## Requerimientos del proyecto
+
+- Destructuring
+
+BookingService.js - línea 258
+
+- Uso de IIFE, funciones constructoras, module pattern, prototipado y singletons
+
+En cualquiera de los modelos (BycicleModel.js por ejemplo)
+
+- Paquetes NPM
+
+Lo serían tanto los utils como el scheduler (/app/src/utils y /app/src/scheduler)
+
 ## <span style="color:#3893cb">Introduction</span>
 
-In the scenario where we would own a store, our business is to actually have an API where you iterate over the bycicles your store has. Considering that, imagine that you have two entities:
-bycicles and stores.
+In the scenario where we would own a store, our business is to actually have an API where you iterate over the bycicles your store has. Considering that, imagine that you have:
 
-You can be attached to other stores, that stores give you a bunch of bycicles to rent them, sell them or whatever, and then you have the bycicles.
+- Bycicles
+- Stores attached to your store
 
-This API is about that, iterating over the bycicles, making some CRUD and applying filters to get the kind of bycicle that the user wants, and then you can see which stores are afiliated with you and even afiliate with more stores.
+You can be attached to other stores, that stores give you a bunch of bycicles to rent them, sell them or whatever.
+
+This API is about that, iterating over the bycicles, making some CRUD and applying filters to get the kind of bycicle that the user wants, and then you can see which stores are afiliated with you and even afiliate with more stores, you can also make reservations of bikes.
 
 ---
 
