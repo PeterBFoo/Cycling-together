@@ -9,6 +9,57 @@ var service = (() => {
         return Availability.findAll({ where: { "stock": { [Op.gt]: 0 } } });
     }
 
+    async function getAllAvailabilities() {
+        let availabilities = await getAll();
+
+        if (availabilities) {
+            let stores = await storeService.findAll();
+            let bycicles = await bycicleService.findAll();
+
+            return preparePublicAvailabilitiesData(availabilities, stores, bycicles);
+        }
+    }
+
+    function preparePublicAvailabilitiesData(availabilities, stores, bycicles) {
+        availabilities.forEach(availability => {
+            let store = stores.find(store => store.id == availability.storeId);
+            let bycicle = bycicles.find(bycicle => bycicle.id == availability.bycicleId);
+
+            availability = availability.dataValues;
+            availability.store = store;
+            availability.bycicle = bycicle;
+
+            delete availability.storeId;
+            delete availability.bycicleId;
+        });
+
+        return availabilities;
+    }
+
+    function preparePublicAvailabilityData(availability, store, bycicle) {
+        availability = availability.dataValues;
+        availability.store = store;
+        availability.bycicle = bycicle;
+
+        delete availability.storeId;
+        delete availability.bycicleId;
+
+        return availability;
+    }
+
+    async function getDesiredAvailability(bycicleId, storeId) {
+        let availability = await getAvailability(bycicleId, storeId);
+
+        if (availability) {
+            let store = await storeService.findOne(storeId);
+            let bycicle = await bycicleService.findOne(bycicleId);
+
+            return preparePublicAvailabilityData(availability, store, bycicle);
+        }
+
+        return null;
+    }
+
     function getAvailability(bycicleId, storeId) {
         return Availability.findOne({
             where: {
@@ -84,7 +135,9 @@ var service = (() => {
 
     return {
         getAll,
+        getAllAvailabilities,
         getAvailability,
+        getDesiredAvailability,
         getBikeAvailabilities,
         registerAvailability,
         updateStock,

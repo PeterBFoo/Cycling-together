@@ -4,7 +4,7 @@ const responseError = require("../errors/ResponseError");
 var controller = (function () {
     async function getAll(req, res) {
         try {
-            const availabilities = await availabilityService.getAll();
+            const availabilities = await availabilityService.getAllAvailabilities();
             availabilities.length > 0 ? res.status(200).send(availabilities) : res.status(404).send(responseError.notFound("availability"));
 
         } catch (error) {
@@ -14,7 +14,7 @@ var controller = (function () {
 
     async function getAvailability(req, res) {
         try {
-            const availability = await availabilityService.getAvailability(req.params.bycicleId, req.params.storeId);
+            const availability = await availabilityService.getDesiredAvailability(req.params.bycicleId, req.params.storeId);
 
             availability ? res.status(200).send(availability) : res.status(404).send(responseError.notFound("availability"));
         } catch (error) {
