@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "cross-env NODE_ENV=test npm run seed:test && jest --detectOpenHandles",
+    "test": "cross-env NODE_ENV=test npm run seed:test && jest ./app/test --detectOpenHandles --forceExit",
     "test:models": "jest ./app/test/models",
     "test:coverage": "cross-env NODE_ENV=test npm run seed:test && jest --detectOpenHandles --coverage",
     "dev": "cross-env NODE_ENV=dev nodemon ./bin/www",
