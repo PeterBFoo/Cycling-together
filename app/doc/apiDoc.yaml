@@ -623,7 +623,8 @@ paths:
               phoneNumber: "+34 657 883 923"
               bycicleId: 1
               storeId: 1
-              endDate: "23:59"
+              startDate: "2023-10-01"
+              endDate: "2023-10-03"
               total: 143.85
 
       responses:
@@ -679,14 +680,15 @@ paths:
             type: string
       
       requestBody:
-        description: Update dates of a booking, startDate must be the hour where the booking starts and endDate must be the hour where the booking ends for the same day. If startDate is not specified it will be the current hour.
+        description: Update dates of a booking
         required: true
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/Booking"
             example:
-              endDate: "23:30"
+              startDate: "2023-10-01"
+              endDate: "2023-10-03"
 
       responses:
         "200":
