@@ -48,7 +48,7 @@ Utils.prototype.parseDateToString = function (date) {
 };
 
 Utils.prototype.isValidDate = function (startDate, endDate) {
-    let nowInSeconds = new Date().getTime() / 1000 - 300;
+    let nowInSeconds = this.createDate(this.parseDateToString(new Date())) / 1000 - 300;
     let sDate = (this.createDate(startDate)).getTime() / 1000;
     let eDate = (this.createDate(endDate)).getTime() / 1000;
     return sDate > nowInSeconds && eDate > nowInSeconds && sDate <= eDate;
