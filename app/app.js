@@ -7,6 +7,7 @@ const db = require("./src/db/connection.js");
 const swaggerUi = require('swagger-ui-express');
 const fs = require('fs');
 const yaml = require('js-yaml');
+const scheduler = require("./src/scheduler");
 
 
 db.connection.sync()
@@ -29,6 +30,8 @@ app.use(express.json());
 // Routes
 app.use("/bycicles", require("./src/routes/BycicleRoutes"));
 app.use("/stores", require("./src/routes/StoreRoutes"));
+app.use("/booking", require("./src/routes/BookingRoutes"));
+app.use("/availability", require("./src/routes/AvailabilityRoutes"));
 const swaggerDocument = yaml.load(fs.readFileSync(__dirname + "/doc/apiDoc.yaml", 'utf8'));
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
@@ -45,6 +48,9 @@ app.use(function (err, req, res, next) {
   res.status(404).send(err.message);
 });
 
-if (env.NODE_ENV != "test") console.log("\x1b[36m%s\x1b[0m", "App is running on http://localhost:" + appPort + "\n");
+if (env.NODE_ENV != "test") {
+  scheduler.startDailyJob(require("./src/services/BookingService").refresh);
+  console.log("\x1b[36m%s\x1b[0m", "App is running on http://localhost:" + appPort + "\n");
+}
 
 module.exports = app;
