@@ -85,7 +85,7 @@ paths:
       tags:
         - Bycicles
       requestBody:
-        description: Register a new bycicle, you have to indicate to which store does it belong
+        description: Register a new bycicle model
         required: true
         content:
           application/json:
@@ -105,7 +105,7 @@ paths:
               driveTrain: "1x10 speed"
               frontTravel: "120 mm"
               seatpost: "Bontrager Rhythm Elite"
-              storeId: 1
+              price: 39.50
 
       responses:
         "201":
@@ -217,6 +217,7 @@ paths:
                 $ref: "#/components/schemas/Store"
         "404":
           description: Stores not found
+  
   /stores/get/{id}: 
     get:
       summary: Retrieve a store by an ID
@@ -240,27 +241,7 @@ paths:
           description: Bad request
         "404":
           description: Store not found
-  /stores/{id}/bycicles:
-    get:
-      summary: Retrieve all the bycicles of a store
-      tags:
-        - Stores
-      parameters:
-        - name: id
-          in: path
-          description: The store ID
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: All the bycicles of the store with the requested ID
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Bycicle"
-        "404":
-          description: Store not found
+  
   /stores/register:
     post:
       summary: Register a new store
@@ -290,6 +271,7 @@ paths:
                 $ref: "#/components/schemas/Store"
         "400":
           description: Bad request
+  
   /stores/update/{id}:
     put:
       summary: Update an existing store
@@ -326,6 +308,7 @@ paths:
                 $ref: "#/componentsschemas/Store"
         "400":
           description: Bad request
+  
   /stores/delete/one/{id}:
     delete:
       summary: Delete a store by an ID
@@ -349,6 +332,7 @@ paths:
           description: Bad request
         "404":
           description: Store not found
+  
   /stores/delete/all:
     delete:
       summary: Delete all the stores
@@ -366,6 +350,357 @@ paths:
         "404":
           description: Store not found
   
+  /availability:
+    get:
+      summary: Get all the availabilities of the bikes of all the stores
+      tags:
+        - Availability
+      
+      responses:
+        "200":
+          description: Returns all the availabilities
+          content:
+            application/json:
+              schema:
+                type: string
+        
+        "404":
+          description: There's no availability
+
+  /availability/{bycicleId}/{storeId}:
+    get:
+      summary: Get a certain availability
+      tags:
+        - Availability
+      parameters:
+        - name: bycicleId
+          in: path
+          description: The bycicle ID
+          required: true
+          schema:
+            type: string
+
+        - name: storeId
+          in: path
+          description: The store ID
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Returns the availability
+          content:
+            application/json:
+              schema:
+                type: string
+        
+        "400":
+          description: Bad request (ID is not a number)
+
+        "404":
+          description: There's no availability
+
+    delete:
+      summary: Delete a certain availability
+      tags:
+        - Availability
+
+      parameters:
+        - name: bycicleId
+          in: path
+          description: The bycicle ID
+          required: true
+          schema:
+            type: string
+
+        - name: storeId
+          in: path
+          description: The store ID
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Returns a informative message
+          content:
+            application/json:
+              schema:
+                type: string
+        
+        "400":
+          description: Bad request (ID is not a number)
+
+        "404":
+          description: Availability not found
+
+
+  /availability/bycicle/{bycicleId}:
+    get:
+      summary: Get the availability for this bycicle
+      tags:
+        - Availability
+
+      parameters:
+        - name: bycicleId
+          in: path
+          description: The bycicle ID
+          required: true
+          schema:
+            type: string
+      
+      responses:
+        "200":
+          description: Returns the availabilities for this bycicle
+          content:
+            application/json:
+              schema:
+                type: string
+        
+        "400":
+          description: Bad request (ID is not a number)
+
+        "404":
+          description: There's no availability
+
+  /availability/store/{storeId}:
+    get:
+      summary: Get a certain availability
+      tags:
+        - Availability
+      parameters:
+        - name: storeId
+          in: path
+          description: The store ID
+          required: true
+          schema:
+            type: string
+
+      
+      responses:
+        "200":
+          description: Returns the availability
+          content:
+            application/json:
+              schema:
+                type: string
+        
+        "400":
+          description: Bad request (ID is not a number)
+
+        "404":
+          description: There's no availability
+  
+  /availability/register:
+    post:
+      summary: Register a new availability
+      tags:
+        - Availability
+      requestBody:
+        description: Register a new availability, but bycicleId and storeId must be unique in composition
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Availability"
+            example:
+              bycicleId: 1
+              storeId: 2
+              stock: 10
+      responses:
+        "201":
+          description: 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Availability"
+        "400":
+          description: Bad request
+
+  /availability/{bycicleId}/{storeId}/{stock}:
+    put:
+      summary: Update the stock of an existing availability
+      tags:
+        - Availability
+      parameters:
+        - name: bycicleId
+          in: path
+          description: The bycicle ID
+          required: true
+          schema:
+            type: string
+
+        - name: storeId
+          in: path
+          description: The store ID
+          required: true
+          schema:
+            type: string
+        
+        - name: stock
+          in: path
+          description: The stock
+          required: true
+          schema:
+            type: integer
+        
+      requestBody:
+        description: Modify the stock of a certain availability
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Availability"
+            example:
+              bycicleId: 1
+              storeId: 1
+              stock: 10
+
+      responses:
+        "200":
+          description: Message telling that the availability has been updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Availability"
+        "404":
+          description: Availability not found
+  
+  /booking:
+    get:
+      summary: Get all the bookings
+      tags:
+        - Booking
+      
+      responses:
+        "200":
+          description: Returns all the bookings
+          content:
+            application/json:
+              schema:
+                type: string
+
+        "404":
+          description: There's no availability  
+  
+  /booking/{publicId}:
+    get:
+      summary: Get a specific booking
+      tags:
+        - Booking
+      
+      responses:
+        "200":
+          description: Returns all the bookings
+          content:
+            application/json:
+              schema:
+                type: string
+
+        "400":
+          description: Bad request (ID too long or too short)
+
+        "404":
+          description: Booking not found
+
+  /booking/register:
+    post:
+      summary: Register a new booking
+      tags:
+        - Booking
+      requestBody:
+        description: Register a new booking depending on the stock of the availability of the bycicle
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Booking"
+            example:
+              name: John
+              surname: Wick
+              email: johnwickrocks@gmail.com
+              phoneNumber: "+34 657 883 923"
+              bycicleId: 1
+              storeId: 1
+              endDate: "23:59"
+              total: 143.85
+
+      responses:
+        "201":
+          description: Returns the new booking
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+        "400":
+          description: Bad request, could be because the dates are not correct
+
+        "404":
+          description: Availability not found
+
+  /booking/cancel/{publicId}:
+    post:
+      summary: Cancel a booking
+      tags:
+        - Booking
+      parameters:
+        - name: publicId
+          in: path
+          description: The public ID
+          required: true
+          schema:
+            type: string
+      
+      responses:
+        "200":
+          description: Returns the canceled booking
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+        "400":
+          description: Bad request (ID too long or too short)
+
+        "404":
+          description: Booking not found
+
+  /booking/update/{publicId}:
+    put:
+      summary: Update a booking
+      tags:
+        - Booking
+      parameters:
+        - name: publicId
+          in: path
+          description: The public ID
+          required: true
+          schema:
+            type: string
+      
+      requestBody:
+        description: Update dates of a booking, startDate must be the hour where the booking starts and endDate must be the hour where the booking ends for the same day. If startDate is not specified it will be the current hour.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Booking"
+            example:
+              endDate: "23:30"
+
+      responses:
+        "200":
+          description: Returns the updated booking
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+        "400":
+          description: Bad request (ID too long or too short)
+
+        "404":
+          description: Booking not found
+
 components:
   schemas:
     Bycicle:
@@ -383,7 +718,6 @@ components:
         - storeId
 
       properties:
-
         category:
           type: string
           description: Category of the bike
@@ -447,6 +781,87 @@ components:
         storeId:
           type: integer
           description: ID of the store where the bike is located
+
+    Booking:
+      type: object
+      required:
+        - name
+        - surname
+        - phoneNumber
+        - bycicleId
+        - storeId
+        - startDate
+        - endDate
+        - total
+
+      properties:
+        name:
+          type: string
+          description: Name of the client
+
+        surname:
+          type: string
+          description: Surname of the client
+
+        email:
+          type: string
+          description: Email of the client
+        
+        phoneNumber:
+          type: string
+          description: Phone of the client
+
+        bycicleId:
+          type: integer
+          description: ID of the bycicle that is rented
+
+        storeId:
+          type: integer
+          description: ID of the store where the bycicle belongs
+
+        startDate:
+          type: string
+          description: Day and hour where the booking starts
+
+        endDate:
+          type: string
+          description: Day and hour where the booking ends
+
+        publicId:
+          type: string
+          description: Public identifier for the booking, is automatically genered
+
+        isActive:
+          type: boolean
+          description: True if the booking is active, false if it's not
+
+        canceled:
+          type: boolean
+          description: True if the booking is canceled
+
+        total:
+          type: integer
+          description: Total price payed for the booking
+
+    Availability:
+      type: object
+      required:
+        - storeId
+        - bycicleId
+        - stock
+
+      properties:
+        storeId:
+          type: integer
+          description: ID of the store
+        
+        bycicleId:
+          type: integer
+          description: ID of the bycicle
+
+        stock:
+          type: integer
+          description: How many bycicles of the model (bycicleId) are availiable in the store (storeId)
 
     Store:
       type: object
