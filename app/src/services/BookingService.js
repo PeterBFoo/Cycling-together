@@ -258,18 +258,19 @@ var service = (() => {
         let bookingsToChange = [...bookingsToActivate, ...bookingsToDeactivate];
 
         if (bookingsToChange.length > 0) {
+            console.log("\x1b[36m%s\x1b[0m", "REFRESHING BOOKINGS");
             let availabilities = await availabilityService.getAll();
 
-            bookingsToActivate.forEach(activeBooking => {
+            bookingsToActivate.forEach(async activeBooking => {
                 let availability = availabilities.find(availability => availability.bycicleId === activeBooking.bycicleId && availability.storeId === activeBooking.storeId);
-                availabilityService.decrementStock(availability);
-                updateBookingActive(activeBooking, true);
+                await availabilityService.decrementStock(availability);
+                await updateBookingActive(activeBooking.publicId, true);
             });
 
-            bookingsToDeactivate.forEach(deactiveBooking => {
+            bookingsToDeactivate.forEach(async deactiveBooking => {
                 let availability = availabilities.find(availability => availability.bycicleId === deactiveBooking.bycicleId && availability.storeId === deactiveBooking.storeId);
-                availabilityService.incrementStock(availability);
-                updateBookingActive(deactiveBooking, false);
+                await availabilityService.incrementStock(availability);
+                await updateBookingActive(deactiveBooking.publicId, false);
             });
         }
     }
