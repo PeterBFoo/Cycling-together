@@ -49,7 +49,8 @@ app.use(function (err, req, res, next) {
 });
 
 if (env.NODE_ENV != "test") {
-  scheduler.startDailyJob(require("./src/services/BookingService").refresh);
+  let task = require("./src/services/BookingService").refresh;
+  scheduler.startDailyJob(task);
   console.log("\x1b[36m%s\x1b[0m", "App is running on http://localhost:" + appPort + "\n");
 }
 
