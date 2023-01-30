@@ -29,6 +29,7 @@ var service = (() => {
             availability.store = store;
             availability.bycicle = bycicle;
 
+            delete availability.id;
             delete availability.storeId;
             delete availability.bycicleId;
         });
@@ -70,12 +71,26 @@ var service = (() => {
         });
     }
 
-    function getBikeAvailabilities(bycicleId) {
-        return Availability.findAll({
+    async function getBikeAvailabilities(bycicleId) {
+        let availabilities = await Availability.findAll({
             where: {
                 "bycicleId": bycicleId
             }
         });
+
+        if (availabilities) {
+            try {
+                let stores = await storeService.findAll();
+                let bycicle = await bycicleService.findOne(bycicleId);
+
+                return await preparePublicAvailabilitiesData(availabilities, stores, [bycicle]);
+            } catch (err) {
+                return err;
+            }
+        }
+
+        return null;
+
     }
 
     async function registerAvailability(availability) {
@@ -127,10 +142,22 @@ var service = (() => {
         return Availability.destroy({ where: { "bycicleId": bycicleId, "storeId": storeId } });
     }
 
-    function getAvailabilitiesOfStore(storeId) {
-        return Availability.findAll({
+    async function getAvailabilitiesOfStore(storeId) {
+        let availabilities = await Availability.findAll({
             where: { "storeId": storeId }
         });
+
+        if (availabilities) {
+            try {
+                let store = await storeService.findOne(storeId);
+                let bycicles = await bycicleService.findAll();
+                return await preparePublicAvailabilitiesData(availabilities, [store], bycicles);
+            } catch (err) {
+                return err;
+            }
+        }
+
+        return null;
     }
 
     return {

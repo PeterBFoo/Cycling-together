@@ -62,16 +62,16 @@ var utils = (function () {
             return instance;
         },
         validDate: function () {
-            return this.validDate;
+            return instance.validDate;
         },
         createDate: function () {
-            return this.createDate;
+            return instance.createDate;
         },
         parseDateToString: function (date) {
-            return this.parseDateToString(date);
+            return instance.parseDateToString(date);
         },
         isValidDate: function (startDate, endDate) {
-            return this.isValidDate(startDate, endDate);
+            return instance.isValidDate(startDate, endDate);
         }
     };
 })();

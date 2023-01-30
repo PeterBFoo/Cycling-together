@@ -5,7 +5,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test npm run seed:test && jest ./app/test --detectOpenHandles --forceExit",
     "test:models": "jest ./app/test/models",
-    "test:coverage": "cross-env NODE_ENV=test npm run seed:test && jest --detectOpenHandles --coverage",
+    "test:coverage": "cross-env NODE_ENV=test npm run seed:test && jest --detectOpenHandles --forceExit --coverage",
     "dev": "cross-env NODE_ENV=dev nodemon ./bin/www",
     "start": "cross-env NODE_ENV=prod node ./bin/www",
     "db:start": "docker compose up -d",
