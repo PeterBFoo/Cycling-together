@@ -589,7 +589,15 @@ paths:
       summary: Get a specific booking
       tags:
         - Booking
-      
+
+      parameters:
+        - name: publicId
+          in: path
+          description: The public ID
+          required: true
+          schema:
+            type: string
+
       responses:
         "200":
           description: Returns all the bookings
