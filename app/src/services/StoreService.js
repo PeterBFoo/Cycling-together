@@ -36,6 +36,7 @@ var service = (() => {
 
     function preparePublicStoreData(store) {
         return {
+            id: store.id,
             storeName: store.storeName,
             address: store.address,
             city: store.city,

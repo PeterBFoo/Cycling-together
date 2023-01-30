@@ -39,6 +39,7 @@ var service = (() => {
 
     function preparePublicBycicleData(bycicle) {
         return {
+            id: bycicle.id,
             category: bycicle.category,
             brand: bycicle.brand,
             weight: bycicle.weight,
