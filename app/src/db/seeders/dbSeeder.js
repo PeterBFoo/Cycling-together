@@ -2,6 +2,7 @@ const bycicleSeeder = require("./bycicle/BycicleSeeder");
 const storeSeeder = require("./store/StoreSeeder");
 const bookingSeeder = require("./booking/BookingSeeder");
 const availabilitySeeder = require("./availability/AvailabilitySeeder");
+const sequelize = require("../connection").connection;
 
 var dbActions = {
 	seed: async () => {
@@ -13,7 +14,7 @@ var dbActions = {
 		console.log("\x1b[36m%s\x1b[0m", "\nAvailability seeder done ✅ \n".toUpperCase());
 		await bookingSeeder.up();
 		console.log("\x1b[36m%s\x1b[0m", "\nBooking seeder done 📄 \n".toUpperCase());
-
+		sequelize.close();
 	},
 	drop: async () => {
 		await storeSeeder.down();
