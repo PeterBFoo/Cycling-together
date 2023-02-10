@@ -14,8 +14,8 @@ function isValid(newBooking, desiredProperties, propertiesDescriptions) {
     let matchesWithNull = 0;
 
     desiredProperties.some(propertyName => {
-        if (properties.includes(propertyName)) matches++;
-        if (propertiesDescriptions[propertyName].allowNull && newBooking[propertyName] == undefined) matchesWithNull++;
+        if (properties.includes(propertyName) && (newBooking[propertyName] != null || newBooking[propertyName] != undefined)) matches++;
+        if (propertiesDescriptions[propertyName].allowNull && (newBooking[propertyName] == undefined || newBooking[propertyName] == null)) matchesWithNull++;
     });
 
     if (matches == desiredProperties.length || matchesWithNull + matches == desiredProperties.length) {
@@ -181,6 +181,11 @@ Booking.prototype.activateBookings = function (bookings) {
     return activeBookings;
 };
 
+/**
+ * 
+ * @param {Object} bookings 
+ * @returns 
+ */
 Booking.prototype.deactivateBookings = function (bookings) {
 
     let now = new Date().getTime();
@@ -191,7 +196,12 @@ Booking.prototype.deactivateBookings = function (bookings) {
         let endDate = new Date(booking.endDate).getTime();
 
         if ((now < startDate || now > endDate) && booking.isActive) {
-            deactiveBookings.push(this.setup(booking));
+            let bookingToDeactivate = Object.create(booking);
+            Object.getOwnPropertyNames(booking).forEach((property) => {
+                bookingToDeactivate[property] = booking[property];
+            });
+            bookingToDeactivate.isActive = false;
+            deactiveBookings.push(bookingToDeactivate);
         }
     });
 

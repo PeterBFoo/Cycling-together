@@ -20,8 +20,8 @@ function isValid(newBike, desiredProperties, propertiesDescriptions) {
 	let matchesWithNull = 0;
 
 	desiredProperties.some(propertyName => {
-		if (properties.includes(propertyName)) matches++;
-		if (propertiesDescriptions[propertyName].allowNull && newBike[propertyName] == undefined) matchesWithNull++;
+		if (properties.includes(propertyName) && (newBike[propertyName] != null || newBike[propertyName] != undefined)) matches++;
+		if (propertiesDescriptions[propertyName].allowNull && (newBike[propertyName] == undefined || newBike[propertyName] == null)) matchesWithNull++;
 	});
 
 	if (matches == desiredProperties.length || matchesWithNull + matches == desiredProperties.length) {
@@ -65,6 +65,10 @@ Bycicle.prototype.properties = function (DataTypes = {
 	BOOLEAN: "boolean"
 }) {
 	var properties = {
+		model: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 		category: {
 			type: DataTypes.STRING,
 			allowNull: false
@@ -120,6 +124,10 @@ Bycicle.prototype.properties = function (DataTypes = {
 		price: {
 			type: DataTypes.FLOAT,
 			allowNull: false
+		},
+		photo: {
+			type: DataTypes.STRING,
+			allowNull: true
 		}
 	};
 	return properties;

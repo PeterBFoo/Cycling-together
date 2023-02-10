@@ -14,8 +14,8 @@ function isValid(newAvailability, desiredProperties, propertiesDescriptions) {
     let matchesWithNull = 0;
 
     desiredProperties.some(propertyName => {
-        if (properties.includes(propertyName)) matches++;
-        if (propertiesDescriptions[propertyName].allowNull && newAvailability[propertyName] == undefined) matchesWithNull++;
+        if (properties.includes(propertyName) && (newAvailability[propertyName] != null || newAvailability[propertyName] != undefined)) matches++;
+        if (propertiesDescriptions[propertyName].allowNull && (newAvailability[propertyName] == undefined || newAvailability[propertyName] == null)) matchesWithNull++;
     });
 
     if (matches == desiredProperties.length || matchesWithNull + matches == desiredProperties.length) {

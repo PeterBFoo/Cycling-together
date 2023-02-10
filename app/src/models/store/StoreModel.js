@@ -20,8 +20,8 @@ function isValid(newStore, desiredProperties, propertiesDescriptions) {
 	let matchesWithNull = 0;
 
 	desiredProperties.some(propertyName => {
-		if (properties.includes(propertyName)) matches++;
-		if (propertiesDescriptions[propertyName].allowNull && newStore[propertyName] == undefined) matchesWithNull++;
+		if (properties.includes(propertyName) && (newStore[propertyName] != null || newStore[propertyName] != undefined)) matches++;
+		if (propertiesDescriptions[propertyName].allowNull && (newStore[propertyName] == undefined || newStore[propertyName] == null)) matchesWithNull++;
 	});
 
 	if (matches == desiredProperties.length || matchesWithNull + matches == desiredProperties.length) {
