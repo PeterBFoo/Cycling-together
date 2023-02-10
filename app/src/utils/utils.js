@@ -9,7 +9,7 @@ function Utils() {
  * @returns {Boolean}
  */
 Utils.prototype.validDate = function (date) {
-    return this._dateRegex.test(date);
+    return this._dateRegex.test(date)
 };
 
 /**
@@ -18,6 +18,7 @@ Utils.prototype.validDate = function (date) {
  * @returns {Date, Boolean}
  */
 Utils.prototype.createDate = function (date, time = "12:00") {
+    if (Object.getPrototypeOf(date) === Date.prototype) return new Date();
     let fragmentedDate = date.includes("/") ? date.split("/") : date.split("-");
     let fragmentedTime = time.includes(":") ? time.split(":") : null;
 
@@ -31,6 +32,14 @@ Utils.prototype.createDate = function (date, time = "12:00") {
     newDate.setHours(hours, minutes);
 
     return newDate;
+};
+
+Utils.prototype.parseStringToDate = function (date) {
+    let fragmentedDate = date.includes("/") ? date.split("/") : date.split("-");
+    let year = parseInt(fragmentedDate[0]);
+    let month = parseInt(fragmentedDate[1]) - 1;
+    let day = parseInt(fragmentedDate[2]);
+    return new Date(year, month, day);
 };
 
 Utils.prototype.parseDateToString = function (date) {
