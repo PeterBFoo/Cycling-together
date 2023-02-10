@@ -8,6 +8,7 @@ const swaggerUi = require('swagger-ui-express');
 const fs = require('fs');
 const yaml = require('js-yaml');
 const scheduler = require("./src/scheduler");
+const cors = require("cors");
 
 
 db.connection.sync()
@@ -26,6 +27,7 @@ if (env.NODE_ENV === "dev") app.use(logger("dev"));
 let appPort = env.NODE_ENV == "dev" ? "3000" : "8080";
 
 app.use(express.json());
+app.use(cors());
 
 // Routes
 app.use("/bycicles", require("./src/routes/BycicleRoutes"));
@@ -50,6 +52,7 @@ app.use(function (err, req, res, next) {
 
 if (env.NODE_ENV != "test") {
   let task = require("./src/services/BookingService").refresh;
+  task();
   scheduler.startDailyJob(task);
   console.log("\x1b[36m%s\x1b[0m", "App is running on http://localhost:" + appPort + "\n");
 }
