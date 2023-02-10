@@ -9,6 +9,7 @@ test("Create a new bycicle with empty properties", () => {
 test("Create some bycicles", () => {
 	let bycicle = bycicleModel.get().setup(
 		{
+			"model": "test",
 			"category": "Mountain Bike",
 			"brand": "Trek",
 			"weight": 14.5,
@@ -23,11 +24,13 @@ test("Create some bycicles", () => {
 			"frontTravel": "120 mm",
 			"seatpost": "Bontrager Rhythm Elite",
 			"price": 39.49,
-			"storeId": 1
+			"storeId": 1,
+			"photo": ""
 		}
 	);
 	let bycicle2 = bycicleModel.get().setup(
 		{
+			"model": "test",
 			"category": "Road Bike",
 			"brand": "Specialized",
 			"weight": 8.3,
@@ -42,7 +45,8 @@ test("Create some bycicles", () => {
 			"frontTravel": null,
 			"price": 69.99,
 			"seatpost": "Specialized S-Works carbon fiber",
-			"storeId": 1
+			"storeId": 1,
+			"photo": ""
 		}
 	);
 	expect(bycicle == bycicle2).toBeFalsy();
@@ -51,21 +55,21 @@ test("Create some bycicles", () => {
 test("Create a new bycicle with properties", () => {
 	let bycicle = bycicleModel.get().setup(
 		{
+			"model": "test",
 			"category": "Road Bike",
 			"brand": "Specialized",
 			"weight": 8.3,
 			"frame": "Carbon fiber",
-			"suspension": null,
 			"fork": "Specialized FACT carbon fiber",
 			"wheels": "Specialized Roval CLX 50 Disc",
 			"wheelSize": 62,
 			"brakes": "Shimano Ultegra hydraulic disc",
 			"groupSet": "Shimano Ultegra Di2 electronic",
 			"driveTrain": "2x11 speed",
-			"frontTravel": null,
 			"seatpost": "Specialized S-Works carbon fiber",
 			"price": 5000,
-			"storeId": 1
+			"storeId": 1,
+			"photo": null
 		}
 	);
 
@@ -110,6 +114,7 @@ test("Create a new bycicle with wrong property types", () => {
 test("Create a new bycicle without optional parameters", () => {
 	let bycicle = bycicleModel.get().setup(
 		{
+			"model": "test",
 			"category": "Mountain Bike",
 			"brand": "Trek",
 			"weight": 14.5,
@@ -120,7 +125,8 @@ test("Create a new bycicle without optional parameters", () => {
 			"driveTrain": "1x10 speed",
 			"seatpost": "Bontrager Rhythm Elite",
 			"price": 1500,
-			"storeId": 1
+			"storeId": 1,
+			"photo": ""
 		}
 	);
 

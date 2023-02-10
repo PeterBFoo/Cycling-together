@@ -1,5 +1,6 @@
 [
   {
+    "model": "Trek FGH8000",
     "category": "Mountain Bike",
     "brand": "Trek",
     "weight": 14.5,
@@ -13,9 +14,11 @@
     "driveTrain": "1x10 speed",
     "frontTravel": "120 mm",
     "seatpost": "Bontrager Rhythm Elite",
-    "price": 39.49
+    "price": 39.49,
+    "photo": ""
   },
   {
+    "model": "Specialized RoadKiller",
     "category": "Road Bike",
     "brand": "Specialized",
     "weight": 8.3,
@@ -29,9 +32,11 @@
     "driveTrain": "2x11 speed",
     "frontTravel": null,
     "price": 69.99,
-    "seatpost": "Specialized S-Works carbon fiber"
+    "seatpost": "Specialized S-Works carbon fiber",
+    "photo": ""
   },
   {
+    "model": "Trek GiveIt ALL",
     "category": "Mountain Bike",
     "brand": "Giant",
     "weight": 12.2,
@@ -45,9 +50,11 @@
     "driveTrain": "1x8 speed",
     "frontTravel": "63 mm",
     "price": 24.99,
-    "seatpost": "Giant D-Fuse"
+    "seatpost": "Giant D-Fuse",
+    "photo": ""
   },
   {
+    "model": "Giant Technology",
     "category": "Electric Bike",
     "brand": "Giant",
     "weight": 21.5,
@@ -61,9 +68,11 @@
     "driveTrain": "1x9 speed",
     "frontTravel": "120 mm",
     "price": 35.99,
-    "seatpost": "Bontrager Rhythm Elite"
+    "seatpost": "Bontrager Rhythm Elite",
+    "photo": ""
   },
   {
+    "model": "Trek Electric Rush",
     "category": "Electric Bike",
     "brand": "Trek",
     "weight": 14.8,
@@ -77,9 +86,11 @@
     "driveTrain": "1x7 speed",
     "frontTravel": "63 mm",
     "price": 29.99,
-    "seatpost": "Electra Custom"
+    "seatpost": "Electra Custom",
+    "photo": ""
   },
   {
+    "model": "Specialized RoadTour 703",
     "category": "Touring Bike",
     "brand": "Specialized",
     "weight": 8.2,
@@ -93,9 +104,11 @@
     "driveTrain": "1x7 speed",
     "frontTravel": null,
     "price": 19.99,
-    "seatpost": "WOOM Custom"
+    "seatpost": "WOOM Custom",
+    "photo": ""
   },
   {
+    "model": "Specialized Hidro",
     "category": "Touring Bike",
     "brand": "Specialized",
     "weight": 19.5,
@@ -109,9 +122,11 @@
     "driveTrain": "1x10 speed",
     "frontTravel": null,
     "price": 29.99,
-    "seatpost": "Surly Troll"
+    "seatpost": "Surly Troll",
+    "photo": ""
   },
   {
+    "model": "Giant Mountain Conqueror",
     "category": "Road Bike",
     "brand": "Giant",
     "weight": 9.5,
@@ -125,9 +140,11 @@
     "driveTrain": "1x11 speed",
     "frontTravel": null,
     "price": 49.99,
-    "seatpost": "Cannondale SAVE Carbon"
+    "seatpost": "Cannondale SAVE Carbon",
+    "photo": ""
   },
   {
+    "model": "Felt Passion",
     "category": "Mountain Bike",
     "brand": "Felt",
     "weight": 15.4,
@@ -141,9 +158,11 @@
     "driveTrain": "Single speed",
     "frontTravel": null,
     "price": 19.99,
-    "seatpost": "Sixthreezero Custom"
+    "seatpost": "Sixthreezero Custom",
+    "photo": ""
   },
   {
+    "model": "Feel Them Rumble",
     "category": "Road Bike",
     "brand": "Felt",
     "weight": 7.9,
@@ -157,9 +176,11 @@
     "driveTrain": "2x11 speed",
     "frontTravel": null,
     "price": 49.99,
-    "seatpost": "Felt Vibration Reducing Aero Road flip position"
+    "seatpost": "Felt Vibration Reducing Aero Road flip position",
+    "photo": ""
   },
   {
+    "model": "Giant Pussy",
     "category": "Hybrid Bike",
     "brand": "Giant",
     "weight": 12.2,
@@ -173,9 +194,11 @@
     "driveTrain": "1x8 speed",
     "frontTravel": "63 mm",
     "price": 24.99,
-    "seatpost": "Giant D-Fuse"
+    "seatpost": "Giant D-Fuse",
+    "photo": ""
   },
   {
+    "model": "Trek JJ73",
     "category": "Electric Bike",
     "brand": "Trek",
     "weight": 21.5,
@@ -189,9 +212,11 @@
     "driveTrain": "1x9 speed",
     "frontTravel": "120 mm",
     "price": 35.99,
-    "seatpost": "Bontrager Rhythm Elite"
+    "seatpost": "Bontrager Rhythm Elite",
+    "photo": ""
   },
   {
+    "model": "Felt Ashame",
     "category": "Hybrid Bike",
     "brand": "Felt",
     "weight": 7.9,
@@ -205,6 +230,7 @@
     "driveTrain": "2x11 speed",
     "frontTravel": null,
     "price": 49.99,
-    "seatpost": "Felt Vibration Reducing Aero Road flip position"
+    "seatpost": "Felt Vibration Reducing Aero Road flip position",
+    "photo": ""
   }
 ]

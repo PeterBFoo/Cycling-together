@@ -33,6 +33,7 @@ test("POST /bycicles/register", async () => {
     await request(app)
         .post("/bycicles/register")
         .send({
+            "model": "test",
             "category": "Road Bike",
             "brand": "Specialized",
             "weight": 8.3,
@@ -46,7 +47,8 @@ test("POST /bycicles/register", async () => {
             "driveTrain": "2x11 speed",
             "frontTravel": null,
             "seatpost": "Specialized S-Works carbon fiber",
-            "price": 29.99
+            "price": 29.99,
+            "photo": ""
         })
         .expect((res) => {
             expect(res.statusCode).toBe(201);
@@ -58,6 +60,7 @@ test("POST /bycicles/register 201 without optional parameters", async () => {
     await request(app)
         .post("/bycicles/register")
         .send({
+            "model": "test",
             "category": "Mountain Bike",
             "brand": "Trek",
             "weight": 14.5,
@@ -67,7 +70,8 @@ test("POST /bycicles/register 201 without optional parameters", async () => {
             "brakes": "Shimano MT200 hydraulic disc",
             "driveTrain": "1x10 speed",
             "seatpost": "Bontrager Rhythm Elite",
-            "price": 19.99
+            "price": 19.99,
+            "photo": ""
         })
         .expect((res) => {
             expect(res.statusCode).toBe(201);
@@ -86,6 +90,7 @@ test("PUT /bycicles/update/:id", async () => {
     const res = await request(app)
         .put("/bycicles/update/1")
         .send({
+            "model": "new test",
             "category": "Road Bike",
             "brand": "Specialized",
             "weight": 8.3,
@@ -100,7 +105,8 @@ test("PUT /bycicles/update/:id", async () => {
             "frontTravel": null,
             "seatpost": "Specialized S-Works carbon fiber",
             "price": 29.99,
-            "storeId": 1
+            "storeId": 1,
+            "photo": "testtest"
         })
         .expect(200);
 });
@@ -110,6 +116,7 @@ test("PUT /bycicles/update/:id 404", async () => {
     const res = await request(app)
         .put("/bycicles/update/" + id)
         .send({
+            "model": "new model",
             "category": "Road Bike",
             "brand": "Specialized",
             "weight": 8.3,
@@ -124,7 +131,8 @@ test("PUT /bycicles/update/:id 404", async () => {
             "frontTravel": null,
             "seatpost": "Specialized S-Works carbon fiber",
             "price": 29.99,
-            "storeId": 1
+            "storeId": 1,
+            "photo": ""
         })
         .expect(404);
 
