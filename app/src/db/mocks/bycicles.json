@@ -15,7 +15,7 @@
     "frontTravel": "120 mm",
     "seatpost": "Bontrager Rhythm Elite",
     "price": 39.49,
-    "photo": ""
+    "photo": "https://d2yn9m4p3q9iyv.cloudfront.net/trek/2023/marlin-6-gen-3/thumbs/1000/79ef5.webp"
   },
   {
     "model": "Specialized RoadKiller",
@@ -33,7 +33,7 @@
     "frontTravel": null,
     "price": 69.99,
     "seatpost": "Specialized S-Works carbon fiber",
-    "photo": ""
+    "photo": "https://d2yn9m4p3q9iyv.cloudfront.net/specialized/2023/s-works-tarmac-sl7-sram-red-etap-axs/thumbs/1000/f9af9.webp"
   },
   {
     "model": "Trek GiveIt ALL",
@@ -51,7 +51,7 @@
     "frontTravel": "63 mm",
     "price": 24.99,
     "seatpost": "Giant D-Fuse",
-    "photo": ""
+    "photo": "https://d2yn9m4p3q9iyv.cloudfront.net/trek/2023/marlin-7-gen-3/thumbs/1000/98179.webp"
   },
   {
     "model": "Giant Technology",
@@ -69,7 +69,7 @@
     "frontTravel": "120 mm",
     "price": 35.99,
     "seatpost": "Bontrager Rhythm Elite",
-    "photo": ""
+    "photo": "https://d2yn9m4p3q9iyv.cloudfront.net/yuba/2022/electric-supermarche-step-through/thumbs/1000/126fe.webp"
   },
   {
     "model": "Trek Electric Rush",
@@ -87,7 +87,7 @@
     "frontTravel": "63 mm",
     "price": 29.99,
     "seatpost": "Electra Custom",
-    "photo": ""
+    "photo": "https://d2yn9m4p3q9iyv.cloudfront.net/riverside/2022/electric-hybrid-bike-540e/thumbs/1000/2d861.webp"
   },
   {
     "model": "Specialized RoadTour 703",
@@ -105,7 +105,7 @@
     "frontTravel": null,
     "price": 19.99,
     "seatpost": "WOOM Custom",
-    "photo": ""
+    "photo": "https://d2yn9m4p3q9iyv.cloudfront.net/specialized/2022/s-works-tarmac-sl7-shimano-dura-ace-di2/thumbs/1000/e614d.webp"
   },
   {
     "model": "Specialized Hidro",
@@ -123,7 +123,7 @@
     "frontTravel": null,
     "price": 29.99,
     "seatpost": "Surly Troll",
-    "photo": ""
+    "photo": "https://d2yn9m4p3q9iyv.cloudfront.net/cube/2023/touring-hybrid-pro-500/thumbs/1000/b9fd2.webp"
   },
   {
     "model": "Giant Mountain Conqueror",
@@ -141,7 +141,7 @@
     "frontTravel": null,
     "price": 49.99,
     "seatpost": "Cannondale SAVE Carbon",
-    "photo": ""
+    "photo": "https://d2yn9m4p3q9iyv.cloudfront.net/giant/2023/trance-x-29-1/thumbs/1000/36ccf.webp"
   },
   {
     "model": "Felt Passion",
@@ -159,7 +159,7 @@
     "frontTravel": null,
     "price": 19.99,
     "seatpost": "Sixthreezero Custom",
-    "photo": ""
+    "photo": "https://d2yn9m4p3q9iyv.cloudfront.net/scott/2023/spark-700/thumbs/1000/a5626.webp"
   },
   {
     "model": "Feel Them Rumble",
@@ -177,7 +177,7 @@
     "frontTravel": null,
     "price": 49.99,
     "seatpost": "Felt Vibration Reducing Aero Road flip position",
-    "photo": ""
+    "photo": "https://d2yn9m4p3q9iyv.cloudfront.net/scott/2023/contessa-spark-920/thumbs/1000/e28ca.webp"
   },
   {
     "model": "Giant Pussy",
@@ -195,7 +195,7 @@
     "frontTravel": "63 mm",
     "price": 24.99,
     "seatpost": "Giant D-Fuse",
-    "photo": ""
+    "photo": "https://d2yn9m4p3q9iyv.cloudfront.net/scott/2023/spark-st-900-tuned/thumbs/1000/7e2f9.webp"
   },
   {
     "model": "Trek JJ73",
@@ -213,7 +213,7 @@
     "frontTravel": "120 mm",
     "price": 35.99,
     "seatpost": "Bontrager Rhythm Elite",
-    "photo": ""
+    "photo": "https://d2yn9m4p3q9iyv.cloudfront.net/riverside/2022/electric-hybrid-bike-500e/thumbs/1000/04b7b.webp"
   },
   {
     "model": "Felt Ashame",
@@ -231,6 +231,6 @@
     "frontTravel": null,
     "price": 49.99,
     "seatpost": "Felt Vibration Reducing Aero Road flip position",
-    "photo": ""
+    "photo": "https://d2yn9m4p3q9iyv.cloudfront.net/specialized/2023/turbo-vado-sl-4.0-eq/thumbs/1000/523d1.webp"
   }
 ]
