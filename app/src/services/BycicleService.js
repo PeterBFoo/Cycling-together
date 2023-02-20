@@ -40,6 +40,7 @@ var service = (() => {
     function preparePublicBycicleData(bycicle) {
         return {
             id: bycicle.id,
+            model: bycicle.model,
             category: bycicle.category,
             brand: bycicle.brand,
             weight: bycicle.weight,
@@ -53,6 +54,7 @@ var service = (() => {
             driveTrain: bycicle.driveTrain,
             frontTravel: bycicle.frontTravel,
             seatpost: bycicle.seatpost,
+            price: bycicle.price,
         };
     }
 
