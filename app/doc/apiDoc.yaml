@@ -45,7 +45,7 @@ paths:
                 $ref: "#/components/schemas/Bycicle"
         "400":
           description: Bad request
-          
+
         "404":
           description: Bycicle not found
 
@@ -106,6 +106,7 @@ paths:
               frontTravel: "120 mm"
               seatpost: "Bontrager Rhythm Elite"
               price: 39.50
+              photo: "https://d2yn9m4p3q9iyv.cloudfront.net/riverside/2022/electric-hybrid-bike-500e/thumbs/1000/04b7b.webp"
 
       responses:
         "201":
@@ -130,7 +131,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Register a new bycicle, you have to indicate to which store does it belong
+        description: Update an existing bike
         required: true
         content:
           application/json:
@@ -150,6 +151,7 @@ paths:
               driveTrain: "1x10 speed"
               frontTravel: "120 mm"
               seatpost: "Bontrager Rhythm Elite"
+              photo: "https://d2yn9m4p3q9iyv.cloudfront.net/riverside/2022/electric-hybrid-bike-500e/thumbs/1000/04b7b.webp"
               storeId: 1
 
       responses:
@@ -217,8 +219,8 @@ paths:
                 $ref: "#/components/schemas/Store"
         "404":
           description: Stores not found
-  
-  /stores/get/{id}: 
+
+  /stores/get/{id}:
     get:
       summary: Retrieve a store by an ID
       tags:
@@ -241,7 +243,7 @@ paths:
           description: Bad request
         "404":
           description: Store not found
-  
+
   /stores/register:
     post:
       summary: Register a new store
@@ -271,7 +273,7 @@ paths:
                 $ref: "#/components/schemas/Store"
         "400":
           description: Bad request
-  
+
   /stores/update/{id}:
     put:
       summary: Update an existing store
@@ -308,7 +310,7 @@ paths:
                 $ref: "#/componentsschemas/Store"
         "400":
           description: Bad request
-  
+
   /stores/delete/one/{id}:
     delete:
       summary: Delete a store by an ID
@@ -332,7 +334,7 @@ paths:
           description: Bad request
         "404":
           description: Store not found
-  
+
   /stores/delete/all:
     delete:
       summary: Delete all the stores
@@ -349,13 +351,13 @@ paths:
           description: Bad request
         "404":
           description: Store not found
-  
+
   /availability:
     get:
       summary: Get all the availabilities of the bikes of all the stores
       tags:
         - Availability
-      
+
       responses:
         "200":
           description: Returns all the availabilities
@@ -363,7 +365,7 @@ paths:
             application/json:
               schema:
                 type: string
-        
+
         "404":
           description: There's no availability
 
@@ -394,7 +396,7 @@ paths:
             application/json:
               schema:
                 type: string
-        
+
         "400":
           description: Bad request (ID is not a number)
 
@@ -428,13 +430,12 @@ paths:
             application/json:
               schema:
                 type: string
-        
+
         "400":
           description: Bad request (ID is not a number)
 
         "404":
           description: Availability not found
-
 
   /availability/bycicle/{bycicleId}:
     get:
@@ -449,7 +450,7 @@ paths:
           required: true
           schema:
             type: string
-      
+
       responses:
         "200":
           description: Returns the availabilities for this bycicle
@@ -457,7 +458,7 @@ paths:
             application/json:
               schema:
                 type: string
-        
+
         "400":
           description: Bad request (ID is not a number)
 
@@ -477,7 +478,6 @@ paths:
           schema:
             type: string
 
-      
       responses:
         "200":
           description: Returns the availability
@@ -485,13 +485,13 @@ paths:
             application/json:
               schema:
                 type: string
-        
+
         "400":
           description: Bad request (ID is not a number)
 
         "404":
           description: There's no availability
-  
+
   /availability/register:
     post:
       summary: Register a new availability
@@ -510,7 +510,7 @@ paths:
               stock: 10
       responses:
         "201":
-          description: 
+          description:
           content:
             application/json:
               schema:
@@ -537,14 +537,14 @@ paths:
           required: true
           schema:
             type: string
-        
+
         - name: stock
           in: path
           description: The stock
           required: true
           schema:
             type: integer
-        
+
       requestBody:
         description: Modify the stock of a certain availability
         required: true
@@ -566,13 +566,13 @@ paths:
                 $ref: "#/components/schemas/Availability"
         "404":
           description: Availability not found
-  
+
   /booking:
     get:
       summary: Get all the bookings
       tags:
         - Booking
-      
+
       responses:
         "200":
           description: Returns all the bookings
@@ -582,8 +582,8 @@ paths:
                 type: string
 
         "404":
-          description: There's no availability  
-  
+          description: There's no availability
+
   /booking/{publicId}:
     get:
       summary: Get a specific booking
@@ -660,7 +660,7 @@ paths:
           required: true
           schema:
             type: string
-      
+
       responses:
         "200":
           description: Returns the canceled booking
@@ -686,7 +686,7 @@ paths:
           required: true
           schema:
             type: string
-      
+
       requestBody:
         description: Update dates of a booking
         required: true
@@ -726,6 +726,7 @@ components:
         - driveTrain
         - seatpost
         - storeId
+        - photo
 
       properties:
         category:
@@ -753,21 +754,21 @@ components:
         fork:
           type: string
           description: Fork of the bike
-        
+
         wheels:
           description: Wheels of the bike
-          oneOf: 
+          oneOf:
             - type: string
             - type: "null"
-        
+
         wheelSize:
           type: integer
           description: Wheel size of the bike
-        
+
         brakes:
           type: string
           description: Brakes of the bike
-        
+
         groupSet:
           description: Groupset of the bike
           oneOf:
@@ -777,17 +778,21 @@ components:
         driveTrain:
           type: string
           description: Drivetrain of the bike
-        
+
         frontTravel:
           description: Front travel of the bike
           oneOf:
             - type: integer
             - type: "null"
-        
+
         seatpost:
           type: string
           description: Seatpost of the bike
-        
+
+        photo:
+          type: string
+          description: Photo of the bike
+
         storeId:
           type: integer
           description: ID of the store where the bike is located
@@ -816,7 +821,7 @@ components:
         email:
           type: string
           description: Email of the client
-        
+
         phoneNumber:
           type: string
           description: Phone of the client
@@ -864,7 +869,7 @@ components:
         storeId:
           type: integer
           description: ID of the store
-        
+
         bycicleId:
           type: integer
           description: ID of the bycicle
@@ -891,23 +896,23 @@ components:
         address:
           type: string
           description: Address of the store
-        
+
         city:
           type: string
           description: City of the store
-        
+
         country:
           type: string
           description: Country of the store
-        
+
         phoneNumber:
           type: string
           description: Phone of the store
-        
+
         email:
           type: string
           description: Email of the store
-        
+
         website:
           description: Website of the store
           oneOf:
