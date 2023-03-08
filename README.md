@@ -51,6 +51,8 @@ Creating the database container will create a new directory that will store all 
 
 That environment files must be inside the directory "./app/src/config", there's a **configuration-example.env** that you can use in order to help you configure correctly.
 
+**I recommend to change the name of configuration-example.env to prod.env**
+
 - <span style="color:#66ff66">NODE_ENV=prod</span>
 
   - The node environment, this with the DB parameter will determine which database are you going to operate
@@ -104,7 +106,11 @@ There are three types of .env files:
 
 If you don't want to make any development, you can just change the name of the configuration-example.env file to prod.file. **Consider that if you want to put different names to the env files, you will have to change the "cross-env NODE_ENV=xx" in the package.json** (see FAQs).
 
-- Finally, you can use:
+- Before running, you will have to seed the database and create the apropiate tables, there are different commands for this, that depends on which .env will the project use to know which database will connect, if you changed the example .env file to "prod.env", you can use:
+
+  npm run seed:prod
+
+- And finally:
 
   <span style="color:yellow">npm run start</span>
 
