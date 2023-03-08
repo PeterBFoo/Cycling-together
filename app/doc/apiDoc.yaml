@@ -92,6 +92,7 @@ paths:
             schema:
               $ref: "#/components/schemas/Bycicle"
             example:
+              model: "Trek 123F"
               category: "Mountain Bike"
               brand: "Trek"
               weight: 14.5
@@ -138,6 +139,7 @@ paths:
             schema:
               $ref: "#/components/schemas/Bycicle"
             example:
+              model: "Updated model"
               category: "Updated Bike"
               brand: "Updated Trek"
               weight: 14.5
@@ -152,6 +154,7 @@ paths:
               frontTravel: "120 mm"
               seatpost: "Bontrager Rhythm Elite"
               photo: "https://d2yn9m4p3q9iyv.cloudfront.net/riverside/2022/electric-hybrid-bike-500e/thumbs/1000/04b7b.webp"
+              price: 34.99
               storeId: 1
 
       responses:
@@ -716,6 +719,7 @@ components:
     Bycicle:
       type: object
       required:
+        - model
         - category
         - brand
         - weight
@@ -726,9 +730,14 @@ components:
         - driveTrain
         - seatpost
         - storeId
+        - price
         - photo
 
       properties:
+        model:
+          type: string
+          description: Model name of the bike
+
         category:
           type: string
           description: Category of the bike
@@ -788,6 +797,10 @@ components:
         seatpost:
           type: string
           description: Seatpost of the bike
+
+        price:
+          type: float
+          description: Price of the bike
 
         photo:
           type: string
