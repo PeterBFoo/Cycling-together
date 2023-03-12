@@ -45,3 +45,10 @@ test("Check that isValidDate works as expected and returns a boolean", function 
     let endDate = "2034-01-03";
     expect(util.isValidDate(startDate, endDate)).toBeTruthy();
 })
+
+test("Check that calculates the price of a booking correctly", function () {
+    let startDate = new Date(2022, 0, 1);
+    let endDate = new Date(2022, 0, 3);
+    let price = 100;
+    expect(util.calculateTotal(startDate, endDate, price)).toBe(200);
+});

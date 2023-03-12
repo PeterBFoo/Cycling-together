@@ -118,11 +118,12 @@ var service = (() => {
         const isValidDate = utils.isValidDate(booking.startDate, booking.endDate);
 
         if (isValidDate) {
-            let availability = await availabilityService.getAvailability(booking.bycicleId, booking.storeId);
+            let availability = await availabilityService.getDesiredAvailability(booking.bycicleId, booking.storeId);
 
             if (availability) {
                 try {
                     let validBooking = bookingModel.setup(booking);
+                    validBooking.total = utils.calculateTotal(booking.startDate, booking.endDate, availability.bycicle.price);
                     await updateStockIfActive(validBooking, false);
                     return prepareSingleBookingData(
                         await Booking.create(validBooking),

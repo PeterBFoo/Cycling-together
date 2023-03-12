@@ -75,7 +75,6 @@ test("Create booking with wrong properties", () => {
             "bycicleId": 1,
             "storeId": 1,
             "startDate": "",
-            "endDate": ""
         })
     }
     expect(setup).toThrow();

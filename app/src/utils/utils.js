@@ -63,6 +63,11 @@ Utils.prototype.isValidDate = function (startDate, endDate) {
     return sDate > nowInSeconds && eDate > nowInSeconds && sDate <= eDate;
 };
 
+Utils.prototype.calculateTotal = function (startDate, endDate, price) {
+    let diff = endDate.getTime() - startDate.getTime();
+    let days = diff / (1000 * 3600 * 24);
+    return days * price;
+};
 
 var utils = (function () {
     let instance = new Utils();

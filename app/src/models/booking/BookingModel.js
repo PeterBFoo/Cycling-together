@@ -131,12 +131,9 @@ Booking.prototype.setup = function (newBooking) {
 
     if (newBooking.publicId == undefined) newBooking.publicId = this.generatePublicId();
     if (newBooking.canceled == undefined) newBooking.canceled = false;
+    this.activateBookings([newBooking]).length > 0 ? newBooking.isActive = true : newBooking.isActive = false;
+    newBooking.total = 0;
 
-    if (this.activateBookings([newBooking]).length > 0) {
-        newBooking.isActive = true;
-    } else {
-        newBooking.isActive = false;
-    }
 
     if (isValid(newBooking, Object.keys(properties), properties)) {
         Object.keys(properties).forEach((property) => {
@@ -155,7 +152,6 @@ Booking.prototype.setup = function (newBooking) {
     }
 
     Object.setPrototypeOf(newBooking, this);
-
     return newBooking;
 };
 
