@@ -8,10 +8,11 @@
 
 ## <span style="color:#3893cb">Introduction</span>
 
-In the scenario where we would own a store, our business is to actually have an API where you iterate over the bycicles your store has. Considering that, imagine that you have:
+In the scenario where we would own a store, our business is to actually have an API where you have a bycicle agregator asociated with stores and you can do bookings over that bycicles. Considering that, imagine that you have:
 
 - Bycicles
 - Stores attached to your store
+- A booking engine to create bookings based on a availability
 
 You can be attached to other stores, that stores give you a bunch of bycicles to rent them, sell them or whatever.
 
