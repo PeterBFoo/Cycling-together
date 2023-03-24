@@ -6,20 +6,6 @@
 
 ---
 
-## Requerimientos del proyecto
-
-- Destructuring
-
-BookingService.js - línea 258
-
-- Uso de IIFE, funciones constructoras, module pattern, prototipado y singletons
-
-En cualquiera de los modelos (BycicleModel.js por ejemplo)
-
-- Paquetes NPM
-
-Lo serían tanto los utils como el scheduler (/app/src/utils y /app/src/scheduler)
-
 ## <span style="color:#3893cb">Introduction</span>
 
 In the scenario where we would own a store, our business is to actually have an API where you iterate over the bycicles your store has. Considering that, imagine that you have:
